@@ -1,6 +1,6 @@
 import { intro, outro } from "@clack/prompts";
 import { command } from "cleye";
-import { COMMANDS } from "./enums";
+import { COMMANDS } from "./enums.ts";
 
 export const initCommand = command(
   {

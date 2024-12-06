@@ -19,7 +19,6 @@
   "scripts": {
     "dev": "bun run cli.ts",
     "test": "bun test",
-    "posttest": "bun run __tests__/sandbox/clean.ts",
     "build": "bun build ./cli.ts --target=bun --outfile=out/milow.js"
   },
   "devDependencies": {

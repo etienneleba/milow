@@ -1,4 +1,4 @@
-import en from "../i18n/en.json";
+import en from "./en.json";
 
 export enum I18nLocals {
   "en" = "en",

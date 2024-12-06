@@ -6,7 +6,7 @@ import { homedir } from "os";
 import { join as pathJoin } from "path";
 import { getI18nLocal } from "../i18n";
 import { outroError, outroSuccess } from "../utils/prompts";
-import { COMMANDS } from "./enums";
+import { COMMANDS } from "./enums.ts";
 
 export enum CONFIG_KEYS {
   OPENAI_API_KEY = "OPENAI_API_KEY",
