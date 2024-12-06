@@ -17,7 +17,7 @@ export const runCommand = command(
     parameters: ["[testFilePath]"],
   },
   async (argv) => {
-    intro("Milow is spinning 🪩");
+    intro("milow is spinning 🪩");
 
     let testFilePath = argv._.testFilePath;
     let testFilePathError: null;

@@ -5,7 +5,7 @@
   "bin": {
     "milow": "./cli.ts"
   },
-  "author": "https://github.com/di-sukharev",
+  "author": "https://github.com/etienneleba",
   "module": "cli.ts",
   "type": "module",
   "release": {
