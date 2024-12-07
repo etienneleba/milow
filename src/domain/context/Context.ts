@@ -17,15 +17,7 @@ export default class Context {
     }
 
     push(conversationItem: AssistantChat|AssistantToolCalls|FunctionResult|SystemChat): Context {
-        while(this._conversations.length > this.MAX_CONVERSATION_SIZE) {
-            const removedConversationItem = this._conversations.shift();
-
-            if(removedConversationItem === undefined) {
-                break;
-            }
-
-            this.checkForRelatedConversationItems(removedConversationItem);
-        }
+        this.pruneConversation();
         this._conversations.push(conversationItem);
         this._version++;
 
@@ -33,6 +25,7 @@ export default class Context {
 
         return this;
     }
+
 
     pushInFoundation(conversationItem: AssistantChat|AssistantToolCalls|FunctionResult|SystemChat): Context {
         this._foundation.push(conversationItem);
@@ -51,6 +44,17 @@ export default class Context {
         return this._foundation.concat(this._conversations);
     }
 
+    private pruneConversation() {
+        while (this._conversations.length > this.MAX_CONVERSATION_SIZE) {
+            const removedConversationItem = this._conversations.shift();
+
+            if (removedConversationItem === undefined) {
+                break;
+            }
+
+            this.checkForRelatedConversationItems(removedConversationItem);
+        }
+    }
     private checkForRelatedConversationItems(conversationItem: AssistantChat|AssistantToolCalls|FunctionResult|SystemChat): void {
         if(conversationItem instanceof AssistantToolCalls) {
             for (const functionCall of conversationItem.functionCalls) {
