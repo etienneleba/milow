@@ -13,7 +13,7 @@ export default class ReadFileFunction implements FunctionCallable {
         private fileReader: FileReader
     ) {
     }
-    call(parameters: Parameters): string {
+    async call(parameters: Parameters): Promise<string> {
         const fileContent = this.fileReader.read(parameters.filePath);
 
         if(fileContent === null) {
@@ -40,7 +40,4 @@ export default class ReadFileFunction implements FunctionCallable {
 
         };
     }
-
-
-
 }

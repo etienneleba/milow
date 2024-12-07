@@ -16,8 +16,6 @@ export default class FileConfigProvider implements ConfigProvider {
             throw new Error("config file does not exist");
         }
 
-        console.log(configContent);
-
         return JSON.parse(configContent) as Config;
     }
 

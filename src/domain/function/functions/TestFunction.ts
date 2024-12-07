@@ -14,7 +14,7 @@ export default class TestFunction implements FunctionCallable {
     ) {
     }
 
-    call(parameters: Parameters): string {
+    async call(parameters: Parameters): Promise<string> {
         const testResult = this.testRunner.run();
         return [
             "stdout :",

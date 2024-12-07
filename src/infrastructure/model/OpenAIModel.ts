@@ -3,7 +3,6 @@ import Context from "src/domain/context/Context.ts";
 import ModelResponse from "src/domain/model/ModelResponse.ts";
 import FunctionCall from "src/domain/function/FunctionCall.ts";
 import OpenAI from "openai";
-import {spawnSync} from "bun";
 import AssistantChat from "src/domain/context/AssistantChat.ts";
 import AssistantToolCalls from "src/domain/context/AssistantToolCalls.ts";
 import FunctionResult from "src/domain/context/FunctionResult.ts";
@@ -24,10 +23,12 @@ export default class OpenAIModel implements Model {
 
     async call(context: Context, functionSchema: object[]): Promise<ModelResponse> {
         const messages = this.translateToOpenAIMessages(context.conversations);
+        const tools = this.translateToOpenAITools(functionSchema);
+
         const params = {
             messages: messages,
             model: this.modelName,
-            tools: this.translateToOpenAITools(functionSchema)
+            tools: tools
         };
 
         const completion = await this.client.chat.completions.create(params);
@@ -65,7 +66,7 @@ export default class OpenAIModel implements Model {
                     role: conversationItem.role,
                     tool_call_id: conversationItem.tool_call_id,
                     content: conversationItem.content
-                } as OpenAI.Chat.ChatCompletionToolParam)
+                } as OpenAI.Chat.ChatCompletionMessageToolCall)
             } else if (conversationItem instanceof AssistantChat||SystemChat) {
                 messages.push({
                     role: conversationItem.role,

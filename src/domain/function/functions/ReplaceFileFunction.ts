@@ -15,7 +15,7 @@ export default class ReplaceFileFunction implements FunctionCallable {
     ) {
     }
 
-    call(parameters: Parameters): string {
+    async call(parameters: Parameters): Promise<string> {
         this.fileManipulator.replace(parameters.filePath, parameters.content);
 
         return `File : ${parameters.filePath} has been replaced`

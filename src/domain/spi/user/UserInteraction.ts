@@ -6,4 +6,6 @@ import SystemChat from "src/domain/context/SystemChat.ts";
 export default interface UserInteraction {
 
     print(conversationItem: AssistantChat | AssistantToolCalls | FunctionResult | SystemChat): void;
+
+    ask(question: string): Promise<string>;
 }

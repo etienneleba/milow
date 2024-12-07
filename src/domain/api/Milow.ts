@@ -12,6 +12,7 @@ import {ContextFactory} from "src/domain/context/ContextFactory.ts";
 import FileExplorer from "src/domain/spi/file/FileExplorer.ts";
 import SystemChat from "src/domain/context/SystemChat.ts";
 import UserInteraction from "src/domain/spi/user/UserInteraction.ts";
+import {log, spinner} from "@clack/prompts";
 
 export default class Milow {
     constructor(
@@ -27,19 +28,24 @@ export default class Milow {
 
     async fixTests() {
         let context = (new ContextFactory(this.fileExplorer, this.userInteraction)).setup();
-       // let  context = (new Context()).push(new SystemChat("Read the file './package.json'"));
+       // let  context = (new Context(this.userInteraction)).push(new SystemChat("Ask the supervisor what to do"));
 
         const functionResolver = new FunctionResolver(
             this.fileReader,
             this.fileManipulator,
-            this.testRunner
+            this.testRunner,
+            this.userInteraction
         );
 
         const functionSchema = functionResolver.getSchema();
 
         const functionCaller = new FunctionCaller(functionResolver);
 
+        const loader = spinner();
+
         while (true) {
+            // loader.start("Milow is thinking...");
+
             const modelResponse = await this.model.call(context, functionSchema);
 
             if(modelResponse.message !== null) {
@@ -47,9 +53,12 @@ export default class Milow {
             }
             if(modelResponse.functionCalls.length > 0) {
                 context.push(new AssistantToolCalls(modelResponse.functionCalls))
+                const functionResults = await functionCaller.call(modelResponse.functionCalls);
+                for (const functionResult of functionResults) {
+                    context.push(functionResult)
+                }
             }
-
-            context = functionCaller.call(context, modelResponse.functionCalls);
+            // loader.stop();
         }
 
 

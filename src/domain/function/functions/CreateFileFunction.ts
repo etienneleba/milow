@@ -15,7 +15,7 @@ export default class CreateFileFunction implements FunctionCallable {
     ) {
     }
 
-    call(parameters: Parameters): string {
+    async call(parameters: Parameters): Promise<string> {
         this.fileManipulator.create(parameters.filePath, parameters.content);
 
         return `${parameters.filePath} has been created`

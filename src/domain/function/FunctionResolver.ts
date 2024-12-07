@@ -6,6 +6,8 @@ import CreateFileFunction from "src/domain/function/functions/CreateFileFunction
 import ReplaceFileFunction from "src/domain/function/functions/ReplaceFileFunction.ts";
 import TestFunction from "src/domain/function/functions/TestFunction.ts";
 import TestRunner from "src/domain/spi/test/TestRunner.ts";
+import AskSupervisorFunction from "src/domain/function/functions/AskSupervisorFunction.ts";
+import UserInteraction from "src/domain/spi/user/UserInteraction.ts";
 
 export default class FunctionResolver {
 
@@ -13,13 +15,15 @@ export default class FunctionResolver {
     constructor(
         fileReader: FileReader,
         fileManipulator: FileManipulator,
-        testRunner: TestRunner
+        testRunner: TestRunner,
+        userInteraction: UserInteraction
     ) {
         this.functions = [
             new ReadFileFunction(fileReader),
             new CreateFileFunction(fileManipulator),
             new ReplaceFileFunction(fileManipulator),
-            new TestFunction(testRunner)
+            new TestFunction(testRunner),
+            new AskSupervisorFunction(userInteraction)
         ]
     }
     resolve(name: string): FunctionCallable {
