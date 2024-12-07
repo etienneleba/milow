@@ -1,19 +1,28 @@
 import FunctionCallable from "src/domain/function/functions/FunctionCallable.ts";
 import ConfigProvider from "src/domain/config/ConfigProvider.ts";
+import TestRunner from "src/domain/spi/test/TestRunner.ts";
 
 interface Parameters {
 }
 export default class TestFunction implements FunctionCallable {
 
-    readonly name: string = "test_function";
+    readonly name: string = "test";
 
     constructor(
         private readonly testRunner: TestRunner,
-        private readonly configProvider: ConfigProvider,
     ) {
     }
     call(parameters: Parameters): string {
-        return this.testRunner.run(this.configProvider.testCommand);
+        const testResult = this.testRunner.run();
+        return [
+            "stdout :",
+            testResult.stdout,
+            "stderr :",
+            testResult.stderr,
+            "exist : ",
+            testResult.exitCode
+        ].join("\n");
+
     }
 
     getSchema(): object {

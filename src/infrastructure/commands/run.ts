@@ -4,6 +4,9 @@ import {COMMANDS} from "./enums.ts";
 import Milow from "src/domain/api/Milow.ts";
 import OpenAIModel from "src/infrastructure/model/OpenAIModel.ts";
 import FSFileReader from "src/infrastructure/file/FSFileReader.ts";
+import FSFileManipulator from "src/infrastructure/file/FSFileManipulator.ts";
+import BunTestRunner from "src/infrastructure/test/BunTestRunner.ts";
+import InMemoryConfigProvider from "src/infrastructure/config/InMemoryConfigProvider.ts";
 
 export const runCommand = command(
     {
@@ -13,9 +16,16 @@ export const runCommand = command(
     async (argv) => {
         intro("milow is spinning 🪩");
 
+        const config = (new InMemoryConfigProvider()).get();
+
+
+
+
         const milow = new Milow(
             new OpenAIModel(),
             new FSFileReader(),
+            new FSFileManipulator(),
+            new BunTestRunner(config.testCommand)
         );
 
         process.exit(0);

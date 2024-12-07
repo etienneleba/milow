@@ -8,10 +8,8 @@ export default class OpenAIModel implements Model {
         return new ModelResponse('Hey comment ça va ?', [
             new FunctionCall(
                 "1",
-                "replace_file",
+                "test",
                 {
-                    "path": "./tests/sandbox/test.php",
-                    "content": "<?php echo 'hey'"
                 }
             )
         ]);

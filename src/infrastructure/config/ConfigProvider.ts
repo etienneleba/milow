@@ -1,4 +1,5 @@
-import Config from "src/domain/config/Config.ts";
+import Config from "src/infrastructure/config/Config.ts";
+
 
 export default interface ConfigProvider {
     get: () => Config;
