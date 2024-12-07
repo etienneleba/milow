@@ -6,7 +6,7 @@ import UserInteraction from "src/domain/spi/user/UserInteraction.ts";
 
 export default class Context {
 
-    private readonly MAX_CONVERSATION_SIZE: number = 15;
+    private readonly MAX_CONVERSATION_SIZE: number = 20;
     private _version = 1;
     private _conversations: Array<AssistantChat|AssistantToolCalls|FunctionResult|SystemChat> = [];
     private _foundation: Array<AssistantChat|AssistantToolCalls|FunctionResult|SystemChat> = [];
@@ -17,8 +17,10 @@ export default class Context {
     }
 
     push(conversationItem: AssistantChat|AssistantToolCalls|FunctionResult|SystemChat): Context {
-        while(this._conversations.length > 20) {
-            this._conversations.shift();
+        while(this._conversations.length > this.MAX_CONVERSATION_SIZE) {
+            const removedConversationItem = this._conversations.shift();
+
+
         }
         this._conversations.push(conversationItem);
         this._version++;
@@ -43,6 +45,21 @@ export default class Context {
 
     get conversations(): Array<AssistantChat|AssistantToolCalls|FunctionResult|SystemChat> {
         return this._foundation.concat(this._conversations);
+    }
+
+    private checkForRelatedConversationItems(conversationItem: AssistantChat|AssistantToolCalls|FunctionResult|SystemChat): void {
+        if(conversationItem instanceof AssistantToolCalls) {
+            for (const functionCall of conversationItem.functionCalls) {
+                for(const currentConversationItem of this._conversations) {
+                    if(currentConversationItem instanceof FunctionResult && functionCall.id === currentConversationItem.tool_call_id) {
+                        const index = this._conversations.indexOf(currentConversationItem);
+                        if (index > -1) {
+                            this._conversations.splice(index, 1);
+                        }
+                    }
+                }
+            }
+        }
     }
 
 }
