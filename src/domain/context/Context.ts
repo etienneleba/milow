@@ -20,7 +20,11 @@ export default class Context {
         while(this._conversations.length > this.MAX_CONVERSATION_SIZE) {
             const removedConversationItem = this._conversations.shift();
 
+            if(removedConversationItem === undefined) {
+                break;
+            }
 
+            this.checkForRelatedConversationItems(removedConversationItem);
         }
         this._conversations.push(conversationItem);
         this._version++;
