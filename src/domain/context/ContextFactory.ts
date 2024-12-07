@@ -14,7 +14,7 @@ export class ContextFactory {
 
         const fileTree = this.fileExplorer.getViewableFiles();
 
-        context.push(
+        context.pushInFoundation(
             new SystemChat(this.getSystemMessage(fileTree))
         )
 
@@ -28,9 +28,8 @@ export class ContextFactory {
             "## Instructions :",
             "- Always launch the tests first. You're done when the test are green",
             "- Always read a file before write in it",
-            "- The supervisor is using wishful thinking programming, so some files use in the test might not exist. In this case, create them and import them in the test",
+            "- The supervisor is using wishful thinking programming, so some files/classes use in the test might not exist. In this case, create them and import them in the test",
             "- Never write in the test file. Only to import new created class",
-            "- Always be really accurate when you say a row number",
             "- If you need more context or you are stuck, ask a question to your supervisor",
             "- Adhere strictly to Test-Driven Development (TDD) practices, ensuring that all code written is robust, efficient, and passes the tests.",
             "- Use the examples to understand the coding style of the team and the context of the project",

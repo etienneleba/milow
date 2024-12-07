@@ -6,8 +6,10 @@ import UserInteraction from "src/domain/spi/user/UserInteraction.ts";
 
 export default class Context {
 
+    private readonly MAX_CONVERSATION_SIZE: number = 15;
     private _version = 1;
     private _conversations: Array<AssistantChat|AssistantToolCalls|FunctionResult|SystemChat> = [];
+    private _foundation: Array<AssistantChat|AssistantToolCalls|FunctionResult|SystemChat> = [];
 
     constructor(
         private readonly userInteraction: UserInteraction
@@ -15,6 +17,9 @@ export default class Context {
     }
 
     push(conversationItem: AssistantChat|AssistantToolCalls|FunctionResult|SystemChat): Context {
+        while(this._conversations.length > 20) {
+            this._conversations.shift();
+        }
         this._conversations.push(conversationItem);
         this._version++;
 
@@ -23,6 +28,13 @@ export default class Context {
         return this;
     }
 
+    pushInFoundation(conversationItem: AssistantChat|AssistantToolCalls|FunctionResult|SystemChat): Context {
+        this._foundation.push(conversationItem);
+
+        return this;
+    }
+
+
 
     get version(): number {
         return this._version;
@@ -30,7 +42,7 @@ export default class Context {
 
 
     get conversations(): Array<AssistantChat|AssistantToolCalls|FunctionResult|SystemChat> {
-        return this._conversations;
+        return this._foundation.concat(this._conversations);
     }
 
 }
