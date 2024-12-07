@@ -14,7 +14,13 @@ export default class ReadFileFunction implements FunctionCallable {
     ) {
     }
     call(parameters: Parameters): string {
-        return this.fileReader.read(parameters.filePath);
+        const fileContent = this.fileReader.read(parameters.filePath);
+
+        if(fileContent === null) {
+            return parameters.filePath + " does not exist";
+        }
+
+        return fileContent;
     }
 
     getSchema(): object {

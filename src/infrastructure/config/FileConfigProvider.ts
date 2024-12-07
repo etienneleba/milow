@@ -12,6 +12,12 @@ export default class FileConfigProvider implements ConfigProvider {
     get(): Config {
         const configContent = this.fsFileReader.read('./milow.config.json')
 
+        if(configContent === null) {
+            throw new Error("config file does not exist");
+        }
+
+        console.log(configContent);
+
         return JSON.parse(configContent) as Config;
     }
 
