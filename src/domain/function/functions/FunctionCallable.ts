@@ -1,4 +1,4 @@
-import FunctionResult from "src/domain/function/FunctionResult.ts";
+import FunctionResult from "src/domain/context/FunctionResult.ts";
 
 export default interface FunctionCallable {
     readonly name: string;

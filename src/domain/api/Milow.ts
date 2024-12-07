@@ -6,40 +6,51 @@ import FunctionResolver from "src/domain/function/FunctionResolver.ts";
 import FileReader from "src/domain/spi/file/FileReader.ts";
 import FileManipulator from "src/domain/spi/file/FileManipulator.ts";
 import TestRunner from "src/domain/spi/test/TestRunner.ts";
+import AssistantChat from "src/domain/context/AssistantChat.ts";
+import AssistantToolCalls from "src/domain/context/AssistantToolCalls.ts";
+import {ContextFactory} from "src/domain/context/ContextFactory.ts";
+import FileExplorer from "src/domain/spi/file/FileExplorer.ts";
+import SystemChat from "src/domain/context/SystemChat.ts";
+import UserInteraction from "src/domain/spi/user/UserInteraction.ts";
 
 export default class Milow {
     constructor(
         private readonly model: Model,
         private readonly fileReader: FileReader,
         private readonly fileManipulator: FileManipulator,
-        private readonly testRunner: TestRunner
+        private readonly testRunner: TestRunner,
+        private readonly fileExplorer: FileExplorer,
+        private readonly userInteraction: UserInteraction
     ) {
         this.model = model
     }
-    fixTests() {
-        let context = new Context();
 
-        const functionCaller = new FunctionCaller(new FunctionResolver(
+    async fixTests() {
+        let context = (new ContextFactory(this.fileExplorer, this.userInteraction)).setup();
+       // let  context = (new Context()).push(new SystemChat("Read the file './package.json'"));
+
+        const functionResolver = new FunctionResolver(
             this.fileReader,
             this.fileManipulator,
             this.testRunner
-        ));
+        );
 
-        while(true) {
-            const modelResponse = this.model.call(context);
+        const functionSchema = functionResolver.getSchema();
 
-            console.log(modelResponse.message);
+        const functionCaller = new FunctionCaller(functionResolver);
 
-            context = functionCaller.call(context, modelResponse.functionCalls);
+        while (true) {
+            const modelResponse = await this.model.call(context, functionSchema);
 
-            for (const conversationItem of context.conversations) {
-                console.log("--------------")
-                console.log(conversationItem.role + " : " + conversationItem.content);
+            if(modelResponse.message !== null) {
+                context.push(new AssistantChat(modelResponse.message));
+            }
+            if(modelResponse.functionCalls.length > 0) {
+                context.push(new AssistantToolCalls(modelResponse.functionCalls))
             }
 
-            sleepSync(5000);
+            context = functionCaller.call(context, modelResponse.functionCalls);
         }
-
 
 
     }

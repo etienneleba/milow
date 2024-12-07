@@ -29,4 +29,13 @@ export default class FunctionResolver {
             }
         }
     }
+
+    getSchema() {
+        let functionSchema = [];
+        for (const functionCallable of this.functions) {
+            functionSchema.push(functionCallable.getSchema());
+        }
+
+        return functionSchema;
+    }
 }

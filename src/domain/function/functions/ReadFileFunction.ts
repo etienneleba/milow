@@ -1,9 +1,9 @@
 import FunctionCallable from "src/domain/function/functions/FunctionCallable.ts";
-import FunctionResult from "src/domain/function/FunctionResult.ts";
+import FunctionResult from "src/domain/context/FunctionResult.ts";
 import FileReader from "src/domain/spi/file/FileReader.ts";
 
 interface Parameters {
-    path: string
+    filePath: string
 };
 export default class ReadFileFunction implements FunctionCallable {
 
@@ -14,11 +14,25 @@ export default class ReadFileFunction implements FunctionCallable {
     ) {
     }
     call(parameters: Parameters): string {
-        return this.fileReader.read(parameters.path);
+        return this.fileReader.read(parameters.filePath);
     }
 
     getSchema(): object {
-        return {};
+        return {
+            name: "read_file",
+            description: "Read a file of the project",
+            parameters: {
+                type: "object",
+                properties: {
+                    filePath: {
+                        type: "string",
+                        description: "The path of the file"
+                    }
+                },
+                required: ["filePath"]
+            }
+
+        };
     }
 
 

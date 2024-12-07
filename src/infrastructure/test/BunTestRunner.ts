@@ -9,7 +9,7 @@ export default class BunTestRunner implements TestRunner {
     ) {
     }
     run(): TestResult {
-        const proc = spawnSync([this.testCommand]);
+        const proc = spawnSync(this.testCommand.split(" "));
 
         return new TestResult(proc.stdout.toString(), proc.stderr.toString(), proc.exitCode);
     }

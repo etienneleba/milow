@@ -4,6 +4,7 @@ import TestRunner from "src/domain/spi/test/TestRunner.ts";
 
 interface Parameters {
 }
+
 export default class TestFunction implements FunctionCallable {
 
     readonly name: string = "test";
@@ -12,6 +13,7 @@ export default class TestFunction implements FunctionCallable {
         private readonly testRunner: TestRunner,
     ) {
     }
+
     call(parameters: Parameters): string {
         const testResult = this.testRunner.run();
         return [
@@ -26,9 +28,12 @@ export default class TestFunction implements FunctionCallable {
     }
 
     getSchema(): object {
-        return {};
+        return {
+            name: "test",
+            description: "Run the test of the project. Return the test result",
+            parameters: {}
+        };
     }
-
 
 
 }

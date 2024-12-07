@@ -12,7 +12,7 @@ export default class FileConfigProvider implements ConfigProvider {
     get(): Config {
         const configContent = this.fsFileReader.read('./milow.config.json')
 
-        return JSON.parse(configContent);
+        return JSON.parse(configContent) as Config;
     }
 
 }

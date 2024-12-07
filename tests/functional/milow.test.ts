@@ -8,16 +8,24 @@ import Context from "src/domain/context/Context.ts";
 import ModelResponse from "src/domain/model/ModelResponse.ts";
 import VCRModelDecorator from "../utils/VCRModelDecorator.ts";
 import BunTestRunner from "src/infrastructure/test/BunTestRunner.ts";
+import FileConfigProvider from "src/infrastructure/config/FileConfigProvider.ts";
+import GlobFileExplorer from "src/infrastructure/file/GlobFileExplorer.ts";
 
 test("call milow fix tests function", async () => {
 
-    const model = new VCRModelDecorator(new OpenAIModel());
+    const config = new FileConfigProvider(new FSFileReader()).get();
+
+    const model = new OpenAIModel(
+        config.apiKey,
+        config.model
+    );
 
     const milow = new Milow(
         model,
         new FSFileReader(),
         new FSFileManipulator(),
-        new BunTestRunner("ls")
+        new BunTestRunner("ls"),
+        new GlobFileExplorer("./{src,tests}/**")
     );
-    milow.fixTests();
+    await milow.fixTests();
 });

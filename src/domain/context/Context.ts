@@ -1,14 +1,26 @@
-import FunctionResult from "src/domain/function/FunctionResult.ts";
-import ConversationItem from "src/domain/context/ConversationItem.ts";
+import FunctionResult from "src/domain/context/FunctionResult.ts";
+import SystemChat from "src/domain/context/SystemChat.ts";
+import AssistantChat from "src/domain/context/AssistantChat.ts";
+import AssistantToolCalls from "src/domain/context/AssistantToolCalls.ts";
+import UserInteraction from "src/domain/spi/user/UserInteraction.ts";
 
 export default class Context {
 
     private _version = 1;
-    private _conversations: Array<ConversationItem> = [];
+    private _conversations: Array<AssistantChat|AssistantToolCalls|FunctionResult|SystemChat> = [];
 
-    push(functionResult: FunctionResult) {
-        this._conversations.push(functionResult);
+    constructor(
+        private readonly userInteraction: UserInteraction
+    ) {
+    }
+
+    push(conversationItem: AssistantChat|AssistantToolCalls|FunctionResult|SystemChat): Context {
+        this._conversations.push(conversationItem);
         this._version++;
+
+        this.userInteraction.print(conversationItem);
+
+        return this;
     }
 
 
@@ -17,7 +29,7 @@ export default class Context {
     }
 
 
-    get conversations(): Array<ConversationItem> {
+    get conversations(): Array<AssistantChat|AssistantToolCalls|FunctionResult|SystemChat> {
         return this._conversations;
     }
 

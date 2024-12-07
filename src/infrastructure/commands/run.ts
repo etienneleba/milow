@@ -7,6 +7,8 @@ import FSFileReader from "src/infrastructure/file/FSFileReader.ts";
 import FSFileManipulator from "src/infrastructure/file/FSFileManipulator.ts";
 import BunTestRunner from "src/infrastructure/test/BunTestRunner.ts";
 import FileConfigProvider from "src/infrastructure/config/FileConfigProvider.ts";
+import GlobFileExplorer from "src/infrastructure/file/GlobFileExplorer.ts";
+import ConsoleUserInteraction from "src/infrastructure/ui/ConsoleUserInteraction.ts";
 
 export const runCommand = command(
     {
@@ -16,17 +18,21 @@ export const runCommand = command(
     async (argv) => {
         intro("milow is spinning 🪩");
 
-        const config = (new FileConfigProvider()).get();
-
-
-
+        const config = (new FileConfigProvider(new FSFileReader())).get();
 
         const milow = new Milow(
-            new OpenAIModel(),
+            new OpenAIModel(
+                config.apiKey,
+                config.model
+            ),
             new FSFileReader(),
             new FSFileManipulator(),
-            new BunTestRunner(config.testCommand)
+            new BunTestRunner(config.testCommand),
+            new GlobFileExplorer(config.viewableFilesPattern),
+            new ConsoleUserInteraction()
         );
+
+        await milow.fixTests();
 
         process.exit(0);
 
