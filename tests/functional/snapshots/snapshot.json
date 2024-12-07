@@ -1,1 +1,41 @@
-[{"version":1,"modelResponse":{"message":"Hey comment ça va ?","functionCalls":[{"id":"1","name":"test","parameters":{}}]}},{"version":2,"modelResponse":{"message":"Hey comment ça va ?","functionCalls":[{"id":"1","name":"test","parameters":{}}]}},{"version":3,"modelResponse":{"message":"Hey comment ça va ?","functionCalls":[{"id":"1","name":"test","parameters":{}}]}}]
+[
+  {
+    "version": 1,
+    "modelResponse": {
+      "message": "Hey comment ça va ?",
+      "functionCalls": [
+        {
+          "id": "1",
+          "name": "test",
+          "parameters": {}
+        }
+      ]
+    }
+  },
+  {
+    "version": 2,
+    "modelResponse": {
+      "message": "Hey comment ça va ?",
+      "functionCalls": [
+        {
+          "id": "1",
+          "name": "test",
+          "parameters": {}
+        }
+      ]
+    }
+  },
+  {
+    "version": 3,
+    "modelResponse": {
+      "message": "Hey comment ça va ?",
+      "functionCalls": [
+        {
+          "id": "1",
+          "name": "test",
+          "parameters": {}
+        }
+      ]
+    }
+  }
+]

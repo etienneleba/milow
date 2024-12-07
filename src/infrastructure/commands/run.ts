@@ -6,7 +6,7 @@ import OpenAIModel from "src/infrastructure/model/OpenAIModel.ts";
 import FSFileReader from "src/infrastructure/file/FSFileReader.ts";
 import FSFileManipulator from "src/infrastructure/file/FSFileManipulator.ts";
 import BunTestRunner from "src/infrastructure/test/BunTestRunner.ts";
-import InMemoryConfigProvider from "src/infrastructure/config/InMemoryConfigProvider.ts";
+import FileConfigProvider from "src/infrastructure/config/FileConfigProvider.ts";
 
 export const runCommand = command(
     {
@@ -16,7 +16,7 @@ export const runCommand = command(
     async (argv) => {
         intro("milow is spinning 🪩");
 
-        const config = (new InMemoryConfigProvider()).get();
+        const config = (new FileConfigProvider()).get();
 
 
 
