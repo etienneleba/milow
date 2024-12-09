@@ -9,104 +9,113 @@ import FunctionResult from "src/domain/context/FunctionResult.ts";
 import SystemChat from "src/domain/context/SystemChat.ts";
 
 export default class OpenAIModel implements Model {
-    private readonly client: OpenAI;
+  private readonly client: OpenAI;
 
-    constructor(
-        private readonly apiKey: string,
-        private readonly modelName: string,
-    ) {
+  constructor(
+    private readonly apiKey: string,
+    private readonly modelName: string,
+  ) {
+    this.client = new OpenAI({
+      apiKey: apiKey,
+    });
+  }
 
-        this.client = new OpenAI({
-            apiKey: apiKey,
-        })
+  async call(
+    context: Context,
+    functionSchema: object[],
+  ): Promise<ModelResponse> {
+    const messages = this.translateToOpenAIMessages(context.conversations);
+    const tools = this.translateToOpenAITools(functionSchema);
+
+    const params = {
+      messages: messages,
+      model: this.modelName,
+      tools: tools,
+      temperature: 0.3,
+      top_p: 0.1,
+    };
+
+    const completion = await this.client.chat.completions.create(params);
+
+    const message = completion.choices[0].message;
+
+    const functionCalls = [];
+    if (message.tool_calls) {
+      for (const openAIToolCall of message.tool_calls) {
+        functionCalls.push(
+          new FunctionCall(
+            openAIToolCall.id,
+            openAIToolCall.function.name,
+            JSON.parse(openAIToolCall.function.arguments),
+          ),
+        );
+      }
     }
 
-    async call(context: Context, functionSchema: object[]): Promise<ModelResponse> {
-        const messages = this.translateToOpenAIMessages(context.conversations);
-        const tools = this.translateToOpenAITools(functionSchema);
+    return new ModelResponse(message.content, functionCalls);
+  }
 
-        const params = {
-            messages: messages,
-            model: this.modelName,
-            tools: tools,
-            temperature: 0.3,
-            top_p: 0.1
-        };
+  private translateToOpenAIMessages(
+    conversations: Array<
+      AssistantChat | AssistantToolCalls | FunctionResult | SystemChat
+    >,
+  ): OpenAI.Chat.ChatCompletionMessageParam[] {
+    const messages = [];
 
-        const completion = await this.client.chat.completions.create(params);
+    for (const conversationItem of conversations) {
+      if (conversationItem instanceof AssistantToolCalls) {
+        const toolCalls = this.functionCallsToToolCalls(
+          conversationItem.functionCalls,
+        );
+        messages.push({
+          role: conversationItem.role,
+          tool_calls: toolCalls,
+        } as OpenAI.Chat.ChatCompletionAssistantMessageParam);
+      } else if (conversationItem instanceof FunctionResult) {
+        messages.push({
+          role: conversationItem.role,
+          tool_call_id: conversationItem.tool_call_id,
+          content: conversationItem.content,
+        } as OpenAI.Chat.ChatCompletionMessageToolCall);
+      } else if (conversationItem instanceof AssistantChat || SystemChat) {
+        messages.push({
+          role: conversationItem.role,
+          content: conversationItem.content,
+        } as OpenAI.Chat.ChatCompletionAssistantMessageParam);
+      }
+    }
+    return messages;
+  }
 
-        const message = completion.choices[0].message;
+  private functionCallsToToolCalls(
+    functionCalls: FunctionCall[],
+  ): OpenAI.Chat.ChatCompletionMessageToolCall[] {
+    const toolCalls = [];
 
-        const functionCalls = [];
-        if (message.tool_calls) {
-            for (const openAIToolCall of message.tool_calls) {
-                functionCalls.push(new FunctionCall(
-                    openAIToolCall.id,
-                    openAIToolCall.function.name,
-                    JSON.parse(openAIToolCall.function.arguments)
-                ));
-            }
-        }
-
-        return new ModelResponse(message.content, functionCalls);
-
+    for (const functionCall of functionCalls) {
+      toolCalls.push({
+        type: "function",
+        id: functionCall.id,
+        function: {
+          name: functionCall.name,
+          arguments: JSON.stringify(functionCall.parameters),
+        },
+      } as OpenAI.Chat.ChatCompletionMessageToolCall);
     }
 
-    private translateToOpenAIMessages(conversations: Array<AssistantChat | AssistantToolCalls | FunctionResult | SystemChat>): OpenAI.Chat.ChatCompletionMessageParam[] {
-        let messages = [];
+    return toolCalls;
+  }
 
-        for (const conversationItem of conversations) {
+  private translateToOpenAITools(functionSchema: object[]) {
+    const tools = [];
 
-            if (conversationItem instanceof AssistantToolCalls) {
-                const toolCalls = this.functionCallsToToolCalls(conversationItem.functionCalls);
-                messages.push({
-                    role: conversationItem.role,
-                    tool_calls: toolCalls
-                } as OpenAI.Chat.ChatCompletionAssistantMessageParam);
-            } else if (conversationItem instanceof  FunctionResult) {
-                messages.push({
-                    role: conversationItem.role,
-                    tool_call_id: conversationItem.tool_call_id,
-                    content: conversationItem.content
-                } as OpenAI.Chat.ChatCompletionMessageToolCall)
-            } else if (conversationItem instanceof AssistantChat||SystemChat) {
-                messages.push({
-                    role: conversationItem.role,
-                    content: conversationItem.content,
-                } as OpenAI.Chat.ChatCompletionAssistantMessageParam)
-            }
-        }
-        return messages;
-
+    for (const functionCallable of functionSchema) {
+      tools.push({
+        type: "function",
+        function: functionCallable,
+      });
     }
 
-    private functionCallsToToolCalls(functionCalls: FunctionCall[]): OpenAI.Chat.ChatCompletionMessageToolCall[] {
-        let toolCalls = [];
-
-        for (const functionCall of functionCalls) {
-            toolCalls.push({
-                type: "function",
-                id: functionCall.id,
-                function: {
-                    name: functionCall.name,
-                    arguments: JSON.stringify(functionCall.parameters)
-                }
-            } as OpenAI.Chat.ChatCompletionMessageToolCall)
-        }
-
-        return toolCalls;
-    }
-
-    private translateToOpenAITools(functionSchema: object[]) {
-        let tools = [];
-
-        for (const functionCallable of functionSchema) {
-            tools.push({
-                type: "function",
-                function: functionCallable
-            });
-        }
-
-        return tools;
-    }
+    return tools;
+  }
 }

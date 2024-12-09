@@ -6,23 +6,23 @@ import SystemChat from "src/domain/context/SystemChat.ts";
 
 export default class UserInteractionTestDecorator implements UserInteraction {
 
-    constructor(
+  constructor(
         private readonly userInteraction: UserInteraction
-    ) {
-    }
+  ) {
+  }
 
-    ask(question: string): Promise<string> {
-        return Promise.resolve("exit");
-    }
+  ask(question: string): Promise<string> {
+    return Promise.resolve("exit");
+  }
 
-    print(conversationItem: AssistantChat | AssistantToolCalls | FunctionResult | SystemChat): void {
-    }
+  print(conversationItem: AssistantChat | AssistantToolCalls | FunctionResult | SystemChat): void {
+  }
 
-    startThinking(): void {
-    }
+  startThinking(): void {
+  }
 
-    stopThinking(): void {
-    }
+  stopThinking(): void {
+  }
 
 
 }

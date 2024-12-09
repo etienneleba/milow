@@ -1,6 +1,6 @@
 import File from "src/domain/file/File.ts";
 export default interface FileExplorer {
-    getViewableFiles(): string[]
+  getViewableFiles(): string[];
 
-    getContextFiles(): File[];
+  getContextFiles(): File[];
 }

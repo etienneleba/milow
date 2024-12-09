@@ -1,8 +1,5 @@
-export default class AssistantChat{
-    public readonly role: string = "assistant";
+export default class AssistantChat {
+  public readonly role: string = "assistant";
 
-    constructor(
-        public readonly content: string
-    ) {
-    }
+  constructor(public readonly content: string) {}
 }

@@ -7,66 +7,66 @@ import FunctionCall from "src/domain/function/FunctionCall.ts";
 import * as console from "node:console";
 
 export default class VCRModelDecorator implements Model{
-    private responses: [{
+  private responses: [{
         version: number,
         modelResponse: ModelResponse
     }] = [];
-    private _snapshotPath: string = "./tests/functional/snapshots/snapshot.json"
-    private readonly fsFileManipulator: FSFileManipulator;
-    private readonly fsFileReader: FSFileReader;
-    private forceReplay: boolean;
+  private _snapshotPath: string = "./tests/functional/snapshots/snapshot.json";
+  private readonly fsFileManipulator: FSFileManipulator;
+  private readonly fsFileReader: FSFileReader;
+  private forceReplay: boolean;
 
-    constructor(
+  constructor(
         private readonly model: Model|null,
 
-    ) {
-        this.fsFileManipulator = new FSFileManipulator();
-        this.fsFileReader = new FSFileReader();
-        if(model === null) {
-            this.forceReplay = true;
-        }
+  ) {
+    this.fsFileManipulator = new FSFileManipulator();
+    this.fsFileReader = new FSFileReader();
+    if(model === null) {
+      this.forceReplay = true;
     }
-    async call(context: Context, functionSchema: FunctionCall[]): Promise<ModelResponse> {
-        this.retrieveResponses();
+  }
+  async call(context: Context, functionSchema: FunctionCall[]): Promise<ModelResponse> {
+    this.retrieveResponses();
 
-        for (const response of this.responses) {
-            if(response.version === context.version) {
-                return response.modelResponse;
-            }
-        }
-
-        if(this.forceReplay) {
-            throw Error("In replay mode VCRModelDecorator do not use the real model. The snapshot doesn't match");
-        }
-
-        const modelResponse = await this.model.call(context, functionSchema);
-
-        this.responses.push({version: context.version, modelResponse: modelResponse});
-
-        this.saveResponses();
-
-        return modelResponse;
-
+    for (const response of this.responses) {
+      if(response.version === context.version) {
+        return response.modelResponse;
+      }
     }
 
-
-    public set snapshotPath(value: string) {
-        this._snapshotPath = value;
+    if(this.forceReplay) {
+      throw Error("In replay mode VCRModelDecorator do not use the real model. The snapshot doesn't match");
     }
 
-    private retrieveResponses(): void {
-        try {
-            const snapshotContent = this.fsFileReader.read(this._snapshotPath);
-            this.responses = JSON.parse(snapshotContent);
-        } catch (e) {
-            this.responses = [];
-        }
+    const modelResponse = await this.model.call(context, functionSchema);
+
+    this.responses.push({version: context.version, modelResponse: modelResponse});
+
+    this.saveResponses();
+
+    return modelResponse;
+
+  }
 
 
+  public set snapshotPath(value: string) {
+    this._snapshotPath = value;
+  }
+
+  private retrieveResponses(): void {
+    try {
+      const snapshotContent = this.fsFileReader.read(this._snapshotPath);
+      this.responses = JSON.parse(snapshotContent);
+    } catch (e) {
+      this.responses = [];
     }
 
-    private saveResponses() {
-        console.log(this.responses);
-        this.fsFileManipulator.replace(this._snapshotPath, JSON.stringify(this.responses,));
-    }
+
+  }
+
+  private saveResponses() {
+    console.log(this.responses);
+    this.fsFileManipulator.replace(this._snapshotPath, JSON.stringify(this.responses,));
+  }
 }

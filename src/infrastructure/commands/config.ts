@@ -26,7 +26,7 @@ enum CONFIG_COMMAND_MODES {
 const validateConfig = (
   key: string,
   condition: any,
-  validationMessage: string
+  validationMessage: string,
 ) => {
   if (!condition) {
     outroError(`Unsupported config key ${key}: ${validationMessage}`);
@@ -41,7 +41,7 @@ export const configValidators = {
     validateConfig(
       CONFIG_KEYS.OPENAI_API_KEY,
       value.startsWith("sk-"),
-      'Must start with "sk-"'
+      'Must start with "sk-"',
     );
 
     return value;
@@ -51,7 +51,7 @@ export const configValidators = {
     validateConfig(
       CONFIG_KEYS.LANGUAGE,
       getI18nLocal(value),
-      `${value} is not supported yet`
+      `${value} is not supported yet`,
     );
 
     return getI18nLocal(value);
@@ -61,7 +61,7 @@ export const configValidators = {
     validateConfig(
       CONFIG_KEYS.RUN_TESTS,
       typeof value === "string",
-      `${value} is not of type string`
+      `${value} is not of type string`,
     );
 
     return value;
@@ -80,7 +80,7 @@ export const configValidators = {
         "gpt-3.5-turbo-16k",
         "gpt-3.5-turbo-0613",
       ].includes(value),
-      `${value} is not supported yet, 'gpt-4o' (default), 'gpt-4o-mini', or 'gpt-4-turbo'`
+      `${value} is not supported yet, 'gpt-4o' (default), 'gpt-4o-mini', or 'gpt-4-turbo'`,
     );
 
     return value;
@@ -128,16 +128,16 @@ export const getConfig = (): ConfigType | null => {
       const validator = configValidators[configKey as CONFIG_KEYS];
       const validValue = validator(
         config[configKey] ?? configFromEnv[configKey as CONFIG_KEYS],
-        config
+        config,
       );
 
       config[configKey] = validValue;
     } catch (error) {
       outro(
-        `'${configKey}' name is invalid, it should be either '${configKey.toUpperCase()}' or it doesn't exist.`
+        `'${configKey}' name is invalid, it should be either '${configKey.toUpperCase()}' or it doesn't exist.`,
       );
       outro(
-        `Manually fix the '.env' file or global '~/.milow/config' config file.`
+        "Manually fix the '.env' file or global '~/.milow/config' config file.",
       );
       process.exit(1);
     }
@@ -188,12 +188,12 @@ export const configCommand = command(
         await setConfig(key, values.join(" "));
       } else {
         throw new Error(
-          `Unsupported mode: ${mode}. Valid modes are: "set" and "get"`
+          `Unsupported mode: ${mode}. Valid modes are: "set" and "get"`,
         );
       }
     } catch (error) {
       outroError(error as string);
       process.exit(1);
     }
-  }
+  },
 );

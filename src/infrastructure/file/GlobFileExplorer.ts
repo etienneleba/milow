@@ -1,40 +1,33 @@
 import FileExplorer from "src/domain/spi/file/FileExplorer.ts";
-import {Glob} from "bun";
+import { Glob } from "bun";
 import File from "src/domain/file/File.ts";
-import {readFileSync} from "fs";
+import { readFileSync } from "fs";
 
 export default class GlobFileExplorer implements FileExplorer {
-    constructor(
-        private viewFilesGlobPattern: string,
-        private contextFilesGlobPattern: string,
-    ) {
-    }
-    getViewableFiles(): string[] {
-        const glob = new Glob(this.viewFilesGlobPattern);
+  constructor(
+    private viewFilesGlobPattern: string,
+    private contextFilesGlobPattern: string,
+  ) {}
+  getViewableFiles(): string[] {
+    const glob = new Glob(this.viewFilesGlobPattern);
 
-        let files = [];
-        for (const file of glob.scanSync()) {
-            files.push(file);
-        }
-
-        return files;
+    const files = [];
+    for (const file of glob.scanSync()) {
+      files.push(file);
     }
 
-    getContextFiles(): File[] {
-        const glob = new Glob(this.contextFilesGlobPattern);
+    return files;
+  }
 
-        let files = [];
-        for (const filePath of glob.scanSync()) {
-            const file = new File(
-                filePath,
-                readFileSync(filePath).toString()
-            )
-            files.push(file);
-        }
+  getContextFiles(): File[] {
+    const glob = new Glob(this.contextFilesGlobPattern);
 
-        return files;
+    const files = [];
+    for (const filePath of glob.scanSync()) {
+      const file = new File(filePath, readFileSync(filePath).toString());
+      files.push(file);
     }
 
-
-
+    return files;
+  }
 }

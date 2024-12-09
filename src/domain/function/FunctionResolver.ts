@@ -10,36 +10,35 @@ import AskSupervisorFunction from "src/domain/function/functions/AskSupervisorFu
 import UserInteraction from "src/domain/spi/user/UserInteraction.ts";
 
 export default class FunctionResolver {
-
-    private readonly functions: Array<FunctionCallable>
-    constructor(
-        fileReader: FileReader,
-        fileManipulator: FileManipulator,
-        testRunner: TestRunner,
-        userInteraction: UserInteraction
-    ) {
-        this.functions = [
-            new ReadFileFunction(fileReader),
-            new CreateFileFunction(fileManipulator),
-            new ReplaceFileFunction(fileManipulator),
-            new TestFunction(testRunner),
-            new AskSupervisorFunction(userInteraction)
-        ]
+  private readonly functions: Array<FunctionCallable>;
+  constructor(
+    fileReader: FileReader,
+    fileManipulator: FileManipulator,
+    testRunner: TestRunner,
+    userInteraction: UserInteraction,
+  ) {
+    this.functions = [
+      new ReadFileFunction(fileReader),
+      new CreateFileFunction(fileManipulator),
+      new ReplaceFileFunction(fileManipulator),
+      new TestFunction(testRunner),
+      new AskSupervisorFunction(userInteraction),
+    ];
+  }
+  resolve(name: string): FunctionCallable {
+    for (const functionCallable of this.functions) {
+      if (name === functionCallable.name) {
+        return functionCallable;
+      }
     }
-    resolve(name: string): FunctionCallable {
-        for(const functionCallable of this.functions) {
-            if(name === functionCallable.name) {
-                return functionCallable
-            }
-        }
+  }
+
+  getSchema() {
+    const functionSchema = [];
+    for (const functionCallable of this.functions) {
+      functionSchema.push(functionCallable.getSchema());
     }
 
-    getSchema() {
-        let functionSchema = [];
-        for (const functionCallable of this.functions) {
-            functionSchema.push(functionCallable.getSchema());
-        }
-
-        return functionSchema;
-    }
+    return functionSchema;
+  }
 }

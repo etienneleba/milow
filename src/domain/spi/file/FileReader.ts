@@ -1,3 +1,3 @@
 export default interface FileReader {
-    read(path: string): string|null;
+  read(path: string): string | null;
 }

@@ -7,32 +7,32 @@ import * as process from "node:process";
 import cleanCurrentDir from "../utils/cleanCurrentDir.ts";
 
 test("should return all the files in a folder", async () => {
-    // Arrange
+  // Arrange
 
-    process.chdir("./tests/sandbox");
-    await cleanCurrentDir();
+  process.chdir("./tests/sandbox");
+  await cleanCurrentDir();
 
-    createFile("test.ts", "test");
-    createFile("test2.ts", "test");
-    createFile("test3.ts", "test");
+  createFile("test.ts", "test");
+  createFile("test2.ts", "test");
+  createFile("test3.ts", "test");
 
-    // Act
-    const globFileExplorer = new GlobFileExplorer("./**", "./**");
-    const viewableFiles = globFileExplorer.getViewableFiles();
-    const contextFiles = globFileExplorer.getContextFiles();
+  // Act
+  const globFileExplorer = new GlobFileExplorer("./**", "./**");
+  const viewableFiles = globFileExplorer.getViewableFiles();
+  const contextFiles = globFileExplorer.getContextFiles();
 
-    // Assert
-    const viewableFilesResult = [
-        './test.ts',
-        './test3.ts',
-        './test2.ts',
-    ]
-    expect(viewableFiles).toEqual(viewableFilesResult)
+  // Assert
+  const viewableFilesResult = [
+    "./test.ts",
+    "./test3.ts",
+    "./test2.ts",
+  ];
+  expect(viewableFiles).toEqual(viewableFilesResult);
 
-    const contextFileResults = viewableFilesResult.map((path) => new File(path, "test"));
+  const contextFileResults = viewableFilesResult.map((path) => new File(path, "test"));
 
-    expect(contextFiles).toEqual(contextFileResults)
+  expect(contextFiles).toEqual(contextFileResults);
 
-    await cleanCurrentDir();
-    process.chdir('../..');
-})
+  await cleanCurrentDir();
+  process.chdir("../..");
+});

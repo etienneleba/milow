@@ -16,27 +16,27 @@ import {readFileSync, } from "fs";
 test("should fix the test and create the generatePrimeNumbers function", async () => {
 
 
-    process.chdir('./tests/sandbox');
+  process.chdir("./tests/sandbox");
 
-    const vcrModel = new VCRModelDecorator(null);
+  const vcrModel = new VCRModelDecorator(null);
 
-    vcrModel.snapshotPath = '../functional/snapshots/snapshot-1.json';
+  vcrModel.snapshotPath = "../functional/snapshots/snapshot-1.json";
 
-    await cleanCurrentDir();
-    copyDirectory("../example/1", ".");
+  await cleanCurrentDir();
+  copyDirectory("../example/1", ".");
 
 
-    const milow = new Milow(
-        vcrModel,
-        new FSFileReader(),
-        new FSFileManipulator(),
-        new BunTestRunner("bun run test"),
-        new GlobFileExplorer("./{src,tests}/**", "./docs/**"),
-        new UserInteractionTestDecorator(new ConsoleUserInteraction())
-    );
-    await milow.fixTests();
+  const milow = new Milow(
+    vcrModel,
+    new FSFileReader(),
+    new FSFileManipulator(),
+    new BunTestRunner("bun run test"),
+    new GlobFileExplorer("./{src,tests}/**", "./docs/**"),
+    new UserInteractionTestDecorator(new ConsoleUserInteraction())
+  );
+  await milow.fixTests();
 
-    expect(readFileSync('./src/index.ts').toString()).toEqualIgnoringWhitespace(`const generatePrimeNumbers = (limit: number): Array<number> => {
+  expect(readFileSync("./src/index.ts").toString()).toEqualIgnoringWhitespace(`const generatePrimeNumbers = (limit: number): Array<number> => {
         if (limit < 2) return [];
 
         const primes = [];
@@ -57,9 +57,9 @@ test("should fix the test and create the generatePrimeNumbers function", async (
 
     export default generatePrimeNumbers;`);
 
-    await cleanCurrentDir();
+  await cleanCurrentDir();
 
-    process.chdir('../..');
+  process.chdir("../..");
 
 
 });

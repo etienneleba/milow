@@ -3,40 +3,35 @@ import FunctionResult from "src/domain/context/FunctionResult.ts";
 import FileReader from "src/domain/spi/file/FileReader.ts";
 
 interface Parameters {
-    filePath: string
-};
+  filePath: string;
+}
 export default class ReadFileFunction implements FunctionCallable {
+  readonly name = "read_file";
 
-    readonly name = "read_file";
+  constructor(private fileReader: FileReader) {}
+  async call(parameters: Parameters): Promise<string> {
+    const fileContent = this.fileReader.read(parameters.filePath);
 
-    constructor(
-        private fileReader: FileReader
-    ) {
+    if (fileContent === null) {
+      return parameters.filePath + " does not exist";
     }
-    async call(parameters: Parameters): Promise<string> {
-        const fileContent = this.fileReader.read(parameters.filePath);
+    return fileContent;
+  }
 
-        if(fileContent === null) {
-            return parameters.filePath + " does not exist";
-        }
-        return fileContent;
-    }
-
-    getSchema(): object {
-        return {
-            name: "read_file",
-            description: "Read a file of the project",
-            parameters: {
-                type: "object",
-                properties: {
-                    filePath: {
-                        type: "string",
-                        description: "The path of the file"
-                    }
-                },
-                required: ["filePath"]
-            }
-
-        };
-    }
+  getSchema(): object {
+    return {
+      name: "read_file",
+      description: "Read a file of the project",
+      parameters: {
+        type: "object",
+        properties: {
+          filePath: {
+            type: "string",
+            description: "The path of the file",
+          },
+        },
+        required: ["filePath"],
+      },
+    };
+  }
 }

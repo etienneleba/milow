@@ -4,12 +4,17 @@ import FunctionResult from "src/domain/context/FunctionResult.ts";
 import SystemChat from "src/domain/context/SystemChat.ts";
 
 export default interface UserInteraction {
+  print(
+    conversationItem:
+      | AssistantChat
+      | AssistantToolCalls
+      | FunctionResult
+      | SystemChat,
+  ): void;
 
-    print(conversationItem: AssistantChat | AssistantToolCalls | FunctionResult | SystemChat): void;
+  ask(question: string): Promise<string>;
 
-    ask(question: string): Promise<string>;
+  startThinking(): void;
 
-    startThinking(): void;
-
-    stopThinking(): void;
+  stopThinking(): void;
 }

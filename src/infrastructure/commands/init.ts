@@ -9,7 +9,6 @@ export const initCommand = command(
   async (argv) => {
     intro("milow is initializing 🐣");
 
-
     outro("Initialization finished 🐥");
-  }
+  },
 );
