@@ -2,10 +2,11 @@ import prettier from "eslint-plugin-prettier";
 import prettierConfig from "eslint-config-prettier";
 import tsParser from "@typescript-eslint/parser";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
+import unusedImports from "eslint-plugin-unused-imports";
 
 const config = ([
     {
-        files: ["src/**/*.ts"], // Apply these rules to TypeScript files
+        files: ["src/**/*.ts"],
         languageOptions: {
             parser: tsParser,
             parserOptions: {
@@ -15,15 +16,25 @@ const config = ([
         },
         plugins: {
             "@typescript-eslint": tsPlugin,
-            prettier: prettier
+            prettier: prettier,
+            "unused-imports": unusedImports
         },
         rules: {
             "semi": ["error", "always"],
             "quotes": ["error", "double"],
             "@typescript-eslint/no-unused-vars": ["warn"],
-            "@typescript-eslint/no-explicit-any": "warn",
             "indent": ["error", 2],
-            "prettier/prettier": "error"
+            "prettier/prettier": "error",
+            /*"unused-imports/no-unused-imports": "error",
+            "unused-imports/no-unused-vars": [
+                "warn",
+                {
+                    vars: "all",
+                    varsIgnorePattern: "^_",
+                    args: "after-used",
+                    argsIgnorePattern: "^_"
+                }
+            ]*/
         }
     },
     prettierConfig

@@ -1,6 +1,5 @@
 import FunctionCallable from "src/domain/function/functions/FunctionCallable.ts";
 import UserInteraction from "src/domain/spi/user/UserInteraction.ts";
-import * as process from "node:process";
 import ExitException from "src/domain/exception/ExitException.ts";
 
 interface Parameters {

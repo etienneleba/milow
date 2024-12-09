@@ -1,5 +1,4 @@
 import FunctionCallable from "src/domain/function/functions/FunctionCallable.ts";
-import FunctionResult from "src/domain/context/FunctionResult.ts";
 import FileReader from "src/domain/spi/file/FileReader.ts";
 
 interface Parameters {

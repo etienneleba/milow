@@ -1,5 +1,4 @@
 import FunctionCallable from "src/domain/function/functions/FunctionCallable.ts";
-import ConfigProvider from "src/domain/config/ConfigProvider.ts";
 import TestRunner from "src/domain/spi/test/TestRunner.ts";
 
 interface Parameters {}
