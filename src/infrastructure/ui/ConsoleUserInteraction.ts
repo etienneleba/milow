@@ -3,29 +3,36 @@ import SystemChat from "src/domain/context/SystemChat.ts";
 import FunctionResult from "src/domain/context/FunctionResult.ts";
 import AssistantToolCalls from "src/domain/context/AssistantToolCalls.ts";
 import AssistantChat from "src/domain/context/AssistantChat.ts";
-import {log, text} from "@clack/prompts";
+import {group, log, spinner, text} from "@clack/prompts";
 import chalk from "chalk";
 
 
 
 export default class ConsoleUserInteraction implements UserInteraction {
+    private readonly spinner;
+
+    constructor() {
+        this.spinner = new spinner();
+    }
     print(conversationItem: AssistantChat | AssistantToolCalls | FunctionResult | SystemChat): void {
         if (conversationItem instanceof AssistantToolCalls) {
+            let messages = [];
             for (const functionCall of conversationItem.functionCalls) {
                 if (["replace_file", "create_file"].includes(functionCall.name)) {
-                    log.step(
+                    messages.push(
                         `📝 ${chalk.white(functionCall.parameters.filePath)}\n`
                     )
                 } else if (functionCall.name == "read_file") {
-                    log.step(
+                    messages.push(
                         `👁️ ${chalk.white(functionCall.parameters.filePath)}\n`
                     )
                 } else if (functionCall.name == "test") {
-                    log.step(
+                    messages.push(
                         `🚥 ${chalk.white("Run the tests")}\n`
                     )
                 }
             }
+            log.step(messages.join('\n'));
         } else if(conversationItem instanceof FunctionResult) {
 
         }
@@ -36,9 +43,19 @@ export default class ConsoleUserInteraction implements UserInteraction {
 
     async ask(question: string): Promise<string> {
         return text({
-            message: "🤖 : " + question,
+            message: `🤖 : ${chalk.whiteBright(question)}`,
         });
     }
+
+    startThinking(): void {
+        this.spinner.start(chalk.white(`Milo${chalk.green("w")} is thinking...`));
+    }
+
+    stopThinking(): void {
+        this.spinner.stop(chalk.white('── ── ── ── ── ── ── ── ── ── ──'));
+    }
+
+
 
 
 

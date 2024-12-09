@@ -8,4 +8,8 @@ export default interface UserInteraction {
     print(conversationItem: AssistantChat | AssistantToolCalls | FunctionResult | SystemChat): void;
 
     ask(question: string): Promise<string>;
+
+    startThinking(): void;
+
+    stopThinking(): void;
 }

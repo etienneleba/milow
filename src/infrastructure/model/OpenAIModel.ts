@@ -28,7 +28,9 @@ export default class OpenAIModel implements Model {
         const params = {
             messages: messages,
             model: this.modelName,
-            tools: tools
+            tools: tools,
+            temperature: 0.3,
+            top_p: 0.1
         };
 
         const completion = await this.client.chat.completions.create(params);

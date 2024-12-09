@@ -9,6 +9,7 @@ import BunTestRunner from "src/infrastructure/test/BunTestRunner.ts";
 import FileConfigProvider from "src/infrastructure/config/FileConfigProvider.ts";
 import GlobFileExplorer from "src/infrastructure/file/GlobFileExplorer.ts";
 import ConsoleUserInteraction from "src/infrastructure/ui/ConsoleUserInteraction.ts";
+import chalk from "chalk";
 
 export const runCommand = command(
     {
@@ -16,7 +17,7 @@ export const runCommand = command(
         parameters: ["[testFilePath]"],
     },
     async (argv) => {
-        intro("milow is spinning 🪩");
+        intro(`Hey ! I'm Milo${chalk.green("w")}, let me help you ! 🚀`);
 
         const config = (new FileConfigProvider(new FSFileReader())).get();
 

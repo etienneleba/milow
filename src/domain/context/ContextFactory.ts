@@ -26,7 +26,7 @@ export class ContextFactory {
             "You act as an expert software engineer that solves tests in Read-Eval-Print Loop mode as per the Test-Driven Development (TDD) practices.",
             "",
             "## Instructions :",
-            "- Always launch the tests first. You're done when the test are green",
+            "- Always launch the tests first. You're done when the test are green. Ask the supervisor what to do when you are done",
             "- Always read a file before write in it",
             "- The supervisor is using wishful thinking programming, so some files/classes use in the test might not exist. In this case, create them and import them in the test",
             "- Never write in the test file. Only to import new created class",

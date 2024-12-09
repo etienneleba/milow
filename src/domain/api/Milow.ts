@@ -13,6 +13,7 @@ import FileExplorer from "src/domain/spi/file/FileExplorer.ts";
 import SystemChat from "src/domain/context/SystemChat.ts";
 import UserInteraction from "src/domain/spi/user/UserInteraction.ts";
 import {log, spinner} from "@clack/prompts";
+import chalk from "chalk";
 
 export default class Milow {
     constructor(
@@ -41,12 +42,14 @@ export default class Milow {
 
         const functionCaller = new FunctionCaller(functionResolver);
 
-        const loader = spinner();
 
         while (true) {
-            // loader.start("Milow is thinking...");
+
+            this.userInteraction.startThinking();
 
             const modelResponse = await this.model.call(context, functionSchema);
+
+            this.userInteraction.stopThinking();
 
             if(modelResponse.message !== null) {
                 context.push(new AssistantChat(modelResponse.message));
@@ -58,7 +61,7 @@ export default class Milow {
                     context.push(functionResult)
                 }
             }
-            // loader.stop();
+
         }
 
 
