@@ -2,23 +2,17 @@ import Model from "src/domain/spi/model/Model.ts";
 import Context from "src/domain/context/Context.ts";
 import ModelResponse from "src/domain/model/ModelResponse.ts";
 import FunctionCall from "src/domain/function/FunctionCall.ts";
-import OpenAI from "openai";
+import OpenAI, {OpenAI} from "openai";
 import AssistantChat from "src/domain/context/AssistantChat.ts";
 import AssistantToolCalls from "src/domain/context/AssistantToolCalls.ts";
 import FunctionResult from "src/domain/context/FunctionResult.ts";
 import SystemChat from "src/domain/context/SystemChat.ts";
+import ModelProvider from "src/infrastructure/model/ModelProvider.ts";
 
-export default class OpenAIModel implements Model {
-  private readonly client: OpenAI;
+export default class OpenAIModel implements Model, ModelProvider {
+  private client: OpenAI;
+  private _modelName: string;
 
-  constructor(
-    private readonly apiKey: string,
-    private readonly modelName: string,
-  ) {
-    this.client = new OpenAI({
-      apiKey: apiKey,
-    });
-  }
 
   async call(
     context: Context,
@@ -29,7 +23,7 @@ export default class OpenAIModel implements Model {
 
     const params = {
       messages: messages,
-      model: this.modelName,
+      model: this._modelName,
       tools: tools,
       temperature: 0.3,
       top_p: 0.1,
@@ -53,6 +47,25 @@ export default class OpenAIModel implements Model {
     }
 
     return new ModelResponse(message.content, functionCalls);
+  }
+
+  getModelNames(): string[] {
+    return [
+      "gpt-4o",
+      "gpt-4o-mini",
+      "gpt-4-turbo",
+      "gpt-4"
+    ];
+  }
+
+  set modelName(value: string) {
+    this._modelName = value;
+  }
+
+  set apiKey(value: string) {
+    this.client = new OpenAI({
+      apiKey: value,
+    });
   }
 
   private translateToOpenAIMessages(
@@ -118,4 +131,6 @@ export default class OpenAIModel implements Model {
 
     return tools;
   }
+
+
 }

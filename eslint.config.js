@@ -25,16 +25,6 @@ const config = ([
             "@typescript-eslint/no-unused-vars": ["warn"],
             "indent": ["error", 2],
             "prettier/prettier": "error",
-            /*"unused-imports/no-unused-imports": "error",
-            "unused-imports/no-unused-vars": [
-                "warn",
-                {
-                    vars: "all",
-                    varsIgnorePattern: "^_",
-                    args: "after-used",
-                    argsIgnorePattern: "^_"
-                }
-            ]*/
         }
     },
     prettierConfig

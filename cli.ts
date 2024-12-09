@@ -2,7 +2,7 @@ import { cli } from "cleye";
 
 import packageJSON from "./package.json";
 
-import { configCommand } from "src/infrastructure/commands/config.js";
+import { configCommand } from "src/infrastructure/commands/check.js";
 import { runCommand } from "src/infrastructure/commands/run.js";
 import { initCommand } from "src/infrastructure/commands/init.js";
 
