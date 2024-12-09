@@ -42,14 +42,19 @@ export default class ConsoleUserInteraction implements UserInteraction {
     }
 
     async ask(question: string): Promise<string> {
-        const textExecution = await text({
+        const textPromise = text({
             message: `🤖 : ${chalk.whiteBright(question)}`,
         });
 
-        if (isCancel(textExecution) || !textExecution) {
-            outro(`🤖 : ${chalk.whiteBright("Bye ! Have a good day !")}`)
-            process.exit();
-        }
+        textPromise.then((text) => {
+            if (isCancel(text) || !text) {
+                outro(`🤖 : ${chalk.whiteBright("Bye ! Have a good day !")}`)
+                process.exit();
+            }
+        })
+
+        return textPromise;
+
     }
 
     startThinking(): void {

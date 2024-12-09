@@ -41,13 +41,11 @@ export default class Milow {
 
         while (true) {
 
-            // this.userInteraction.startThinking();
-            console.log(context.conversations);
-
+            this.userInteraction.startThinking();
 
             const modelResponse = await this.model.call(context, functionSchema);
 
-            // this.userInteraction.stopThinking();
+            this.userInteraction.stopThinking();
 
             if(modelResponse.message !== null) {
                 context.push(new AssistantChat(modelResponse.message));

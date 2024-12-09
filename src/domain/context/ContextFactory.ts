@@ -36,7 +36,7 @@ export class ContextFactory {
             "- You can read as many files as you need to understand the context",
             "- Always read a file before write in it",
             "- The supervisor might use wishful thinking programming, so some files/classes use in the test might not exist. In this case, create them and import them in the test if needed",
-            "- Always ask your supervisor before updating a test file",
+            "- You can view the test files as much as you need to understand what to do, but ask your supervisor before updating a test file",
             "- If you need more context or you are stuck, ask a question to your supervisor",
             "- Adhere strictly to Test-Driven Development (TDD) practices, ensuring that all code written is robust, efficient, passes the tests and is production ready.",
             "- Use the examples to understand the coding style of the team and the context of the project",
