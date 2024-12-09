@@ -10,6 +10,7 @@ import FileConfigProvider from "src/infrastructure/config/FileConfigProvider.ts"
 import GlobFileExplorer from "src/infrastructure/file/GlobFileExplorer.ts";
 import ConsoleUserInteraction from "src/infrastructure/ui/ConsoleUserInteraction.ts";
 import chalk from "chalk";
+import VCRModelDecorator from "../../../tests/utils/decorator/VCRModelDecorator.ts";
 
 export const runCommand = command(
     {
@@ -22,10 +23,10 @@ export const runCommand = command(
         const config = (new FileConfigProvider(new FSFileReader())).get();
 
         const milow = new Milow(
-            new OpenAIModel(
+            new VCRModelDecorator(new OpenAIModel(
                 config.apiKey,
                 config.model
-            ),
+            )),
             new FSFileReader(),
             new FSFileManipulator(),
             new BunTestRunner(config.testCommand),

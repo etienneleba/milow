@@ -1,0 +1,89 @@
+[
+  {
+    "version": 1,
+    "modelResponse": {
+      "message": null,
+      "functionCalls": [
+        {
+          "id": "call_XQdnnnHW1IM64RGpP3SLAmSB",
+          "name": "test",
+          "parameters": {}
+        }
+      ]
+    }
+  },
+  {
+    "version": 3,
+    "modelResponse": {
+      "message": null,
+      "functionCalls": [
+        {
+          "id": "call_crzjud5HYsUscAxWyZ53yne1",
+          "name": "read_file",
+          "parameters": {
+            "filePath": "./tests/index.test.ts"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "version": 5,
+    "modelResponse": {
+      "message": null,
+      "functionCalls": [
+        {
+          "id": "call_75WwHylFTyE3cASupbDQgRCL",
+          "name": "read_file",
+          "parameters": {
+            "filePath": "./src/index.ts"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "version": 7,
+    "modelResponse": {
+      "message": null,
+      "functionCalls": [
+        {
+          "id": "call_RQ60DNkwm4BrcgqEqZMvF1I7",
+          "name": "replace_file",
+          "parameters": {
+            "filePath": "./src/index.ts",
+            "content": "const generatePrimeNumbers = (limit: number): Array<number> => {\n    if (limit < 2) return [];\n\n    const primes = [];\n    const isPrime = Array(limit + 1).fill(true);\n    isPrime[0] = isPrime[1] = false;\n\n    for (let i = 2; i <= limit; i++) {\n        if (isPrime[i]) {\n            primes.push(i);\n            for (let j = i * i; j <= limit; j += i) {\n                isPrime[j] = false;\n            }\n        }\n    }\n\n    return primes;\n}\n\nexport default generatePrimeNumbers;"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "version": 9,
+    "modelResponse": {
+      "message": null,
+      "functionCalls": [
+        {
+          "id": "call_a1gXPw6lDZPphz7jwCdd364G",
+          "name": "test",
+          "parameters": {}
+        }
+      ]
+    }
+  },
+  {
+    "version": 11,
+    "modelResponse": {
+      "message": null,
+      "functionCalls": [
+        {
+          "id": "call_XP9Q2dhuHpZwhLnPaVjr2tM5",
+          "name": "ask_supervisor",
+          "parameters": {
+            "question": "The tests are now passing. Would you like me to refactor the code or is there anything else you would like me to do?"
+          }
+        }
+      ]
+    }
+  }
+]

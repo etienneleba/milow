@@ -19,7 +19,6 @@ export default class ReadFileFunction implements FunctionCallable {
         if(fileContent === null) {
             return parameters.filePath + " does not exist";
         }
-
         return fileContent;
     }
 

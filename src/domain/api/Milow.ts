@@ -11,6 +11,7 @@ import AssistantToolCalls from "src/domain/context/AssistantToolCalls.ts";
 import {ContextFactory} from "src/domain/context/ContextFactory.ts";
 import FileExplorer from "src/domain/spi/file/FileExplorer.ts";
 import UserInteraction from "src/domain/spi/user/UserInteraction.ts";
+import ExitException from "src/domain/exception/ExitException.ts";
 
 export default class Milow {
     constructor(
@@ -38,8 +39,9 @@ export default class Milow {
 
         const functionCaller = new FunctionCaller(functionResolver);
 
+        let keepGoing: boolean = true;
 
-        while (true) {
+        while (keepGoing) {
 
             this.userInteraction.startThinking();
 
@@ -52,9 +54,13 @@ export default class Milow {
             }
             if(modelResponse.functionCalls.length > 0) {
                 context.push(new AssistantToolCalls(modelResponse.functionCalls))
-                const functionResults = await functionCaller.call(modelResponse.functionCalls);
-                for (const functionResult of functionResults) {
-                    context.push(functionResult)
+                try {
+                    const functionResults = await functionCaller.call(modelResponse.functionCalls);
+                    for (const functionResult of functionResults) {
+                        context.push(functionResult);
+                    }
+                } catch (e: ExitException) {
+                    keepGoing = false;
                 }
             }
 

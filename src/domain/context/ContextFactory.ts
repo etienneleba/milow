@@ -18,8 +18,6 @@ export class ContextFactory {
 
         const systemMessage = this.getSystemMessage(fileTree, contextFiles);
 
-        console.log(systemMessage);
-
         context.pushInFoundation(
             new SystemChat(systemMessage)
         );

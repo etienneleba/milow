@@ -1,5 +1,7 @@
 import FunctionCallable from "src/domain/function/functions/FunctionCallable.ts";
 import UserInteraction from "src/domain/spi/user/UserInteraction.ts";
+import * as process from "node:process";
+import ExitException from "src/domain/exception/ExitException.ts";
 
 interface Parameters {
     question: string
@@ -11,7 +13,12 @@ export default class AskSupervisorFunction implements FunctionCallable {
     ) {
     }
     async call(parameters: Parameters): Promise<string> {
-        return this.userInteraction.ask(parameters.question);
+        const answer = await this.userInteraction.ask(parameters.question);
+        if(["exit", "stop"].includes(answer)) {
+            throw new ExitException();
+        }
+
+        return answer;
     }
 
     getSchema(): object {
