@@ -14,13 +14,17 @@ export default class VCRModelDecorator implements Model{
     private _snapshotPath: string = "./tests/functional/snapshots/snapshot.json"
     private readonly fsFileManipulator: FSFileManipulator;
     private readonly fsFileReader: FSFileReader;
+    private forceReplay: boolean;
 
     constructor(
-        private readonly model: Model,
+        private readonly model: Model|null,
 
     ) {
         this.fsFileManipulator = new FSFileManipulator();
         this.fsFileReader = new FSFileReader();
+        if(model === null) {
+            this.forceReplay = true;
+        }
     }
     async call(context: Context, functionSchema: FunctionCall[]): Promise<ModelResponse> {
         this.retrieveResponses();
@@ -29,6 +33,10 @@ export default class VCRModelDecorator implements Model{
             if(response.version === context.version) {
                 return response.modelResponse;
             }
+        }
+
+        if(this.forceReplay) {
+            throw Error("In replay mode VCRModelDecorator do not use the real model. The snapshot doesn't match");
         }
 
         const modelResponse = await this.model.call(context, functionSchema);

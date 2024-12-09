@@ -13,15 +13,12 @@ import VCRModelDecorator from "../utils/decorator/VCRModelDecorator.ts";
 import UserInteractionTestDecorator from "../utils/decorator/UserInteractionTestDecorator.ts";
 import {readFileSync, } from "fs";
 
-test("milow should fix the test and create ", async () => {
+test("should fix the test and create the generatePrimeNumbers function", async () => {
 
 
     process.chdir('./tests/sandbox');
 
-    const vcrModel = new VCRModelDecorator(new OpenAIModel(
-        "",
-        ""
-    ));
+    const vcrModel = new VCRModelDecorator(null);
 
     vcrModel.snapshotPath = '../functional/snapshots/snapshot-1.json';
 
