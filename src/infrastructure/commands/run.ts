@@ -29,7 +29,7 @@ export const runCommand = command(
             new FSFileReader(),
             new FSFileManipulator(),
             new BunTestRunner(config.testCommand),
-            new GlobFileExplorer(config.viewableFilesPattern),
+            new GlobFileExplorer(config.viewableFilesPattern, config.contextFilesPattern),
             new ConsoleUserInteraction()
         );
 

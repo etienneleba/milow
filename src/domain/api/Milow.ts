@@ -10,10 +10,7 @@ import AssistantChat from "src/domain/context/AssistantChat.ts";
 import AssistantToolCalls from "src/domain/context/AssistantToolCalls.ts";
 import {ContextFactory} from "src/domain/context/ContextFactory.ts";
 import FileExplorer from "src/domain/spi/file/FileExplorer.ts";
-import SystemChat from "src/domain/context/SystemChat.ts";
 import UserInteraction from "src/domain/spi/user/UserInteraction.ts";
-import {log, spinner} from "@clack/prompts";
-import chalk from "chalk";
 
 export default class Milow {
     constructor(
@@ -29,7 +26,6 @@ export default class Milow {
 
     async fixTests() {
         let context = (new ContextFactory(this.fileExplorer, this.userInteraction)).setup();
-       // let  context = (new Context(this.userInteraction)).push(new SystemChat("Ask the supervisor what to do"));
 
         const functionResolver = new FunctionResolver(
             this.fileReader,
@@ -45,11 +41,13 @@ export default class Milow {
 
         while (true) {
 
-            this.userInteraction.startThinking();
+            // this.userInteraction.startThinking();
+            console.log(context.conversations);
+
 
             const modelResponse = await this.model.call(context, functionSchema);
 
-            this.userInteraction.stopThinking();
+            // this.userInteraction.stopThinking();
 
             if(modelResponse.message !== null) {
                 context.push(new AssistantChat(modelResponse.message));
