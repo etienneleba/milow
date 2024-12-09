@@ -3,7 +3,7 @@ import SystemChat from "src/domain/context/SystemChat.ts";
 import FunctionResult from "src/domain/context/FunctionResult.ts";
 import AssistantToolCalls from "src/domain/context/AssistantToolCalls.ts";
 import AssistantChat from "src/domain/context/AssistantChat.ts";
-import {group, isCancel, log, spinner, text} from "@clack/prompts";
+import {group, isCancel, log, outro, spinner, text} from "@clack/prompts";
 import chalk from "chalk";
 
 
@@ -32,7 +32,7 @@ export default class ConsoleUserInteraction implements UserInteraction {
                     )
                 }
             }
-            log.step(messages.join('\n'));
+            log.message(messages.join('\n'));
         } else if(conversationItem instanceof FunctionResult) {
 
         }
@@ -42,11 +42,14 @@ export default class ConsoleUserInteraction implements UserInteraction {
     }
 
     async ask(question: string): Promise<string> {
-        const textExecution = text({
+        const textExecution = await text({
             message: `🤖 : ${chalk.whiteBright(question)}`,
         });
 
-        if (isCancel(textExecution) || !textExecution) process.exit(1);
+        if (isCancel(textExecution) || !textExecution) {
+            outro(`🤖 : ${chalk.whiteBright("Bye ! Have a good day !")}`)
+            process.exit();
+        }
     }
 
     startThinking(): void {
