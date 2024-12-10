@@ -38,7 +38,7 @@ export class ContextFactory {
       "",
       "## Instructions :",
       "- Always launch the tests first. Fix the tests, you're done when the test are green. Ask the supervisor what to do when you are done",
-      "- You can read as many files as you need to understand the context",
+      "- You can read the files to understand the project",
       "- Always read a file before write in it",
       "- The supervisor might use wishful thinking programming, so some files/classes use in the test might not exist. In this case, create them and import them in the test if needed",
       "- You can view the test files as much as you need to understand what to do, but ask your supervisor before updating a test file",
