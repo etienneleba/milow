@@ -1,46 +1,77 @@
-# Milow
+# Milow: The Test-Driven AI Assistant
 
 ---
 
 ## Setup
 
-Milow runs on [Bun](https://bun.sh/), make sure you first install the latest Bun version.
+Milow runs on [Bun](https://bun.sh/). Ensure you have the latest version of Bun installed before proceeding.
 
-1. Install Milow globally as a CLI:
+#### 1. Install Milow globally as a CLI:
 
    ```sh
    curl -sSL https://raw.githubusercontent.com/etienneleba/milow/main/install.sh | bash
    ```
+<br />
 
-2. Get your API key from [OpenAI](https://platform.openai.com/account/api-keys). Make sure you add payment details, so API works.
+#### 2. Obtain your API key. Make sure to add payment details to activate the API:
+- [Get your API key from OpenAI](https://platform.openai.com/account/api-keys)
 
-3. Set the key to Milow config:
+<br />
 
-   ```sh
-   milow config set API_KEY <your_api_key>
-   ```
-
-   Your api key is stored locally in `~/.milow/config` config file and is not stored anywhere in any other way.
-
-4. Set the command to run the tests:
+#### 3. Configure Milow with your API key:
 
    ```sh
-   milow config set RUN_TESTS "npm run test"
+   milow init
    ```
 
-Your api key is stored locally in `~/.milow/config` config file and is not stored anywhere in any other way.
+This will generate a `milow.config.json` file:
 
+   ```json
+   {
+      "testCommand": "test", // The command you use to run your tests
+      "model": "gpt-4o", // The model you want to use. Run `milow check models` to see all available models
+      "viewableFilesPattern": "./{src,tests}/**", // Glob pattern of all files Milow can access
+      "contextFilesPattern": "./docs/milow/**" // Glob pattern of files included in Milow's context
+   }
+   ```
+
+<br />
+
+#### 4. Export the API key:
+
+   ```sh
+   export OPENAI_API_KEY=sk-*******
+   ```
+
+<br />
+
+#### 5. Set up Milow's documentation context:
+
+Create a `docs/milow` folder to store all documentation Milow can use to understand your project. Examples of useful files include:
+- **`business.md`**: Describe the business context of your project.
+- **`folder_structure.md`**: Explain the project architecture and the purpose of folders visible to Milow.
+- **`technical_stack.md`**: Provide details about the language, framework, and libraries used in the project.
+- **`test_strategy.md`**: Describe your testing approach, including the use of mocks, fakes, or in-memory objects, and your workflow (TDD, ATDD, Test-First, Wishful Thinking Programming, etc.).
+- **`examples.md`**: List files Milow can use as examples (e.g., controllers, domain models, commands, command handlers, tests, buses, etc.).
+
+The more accurately you describe your project, the more efficient Milow will be in generating quality code.
+
+---
 
 ## Usage
 
-You can call Milow like this:
+You can run Milow using the following command:
 
 ```sh
 milow run
 ```
 
-## Payments
+You can also provide more specific commands:
 
-You pay for your own requests to OpenAI API. Milow uses latest GPT model by default, check it's [pricing](https://openai.com/pricing). Maximum response tokens are set to 2000, you can adjust it via `ait config set maxTokens=<number>`.
+```sh
+milow run -f ./tests/functional/milow.test.ts
+```
 
-I couldn't manage ChatGPT model to solve the problem. I tried to few shot it with a response example, it doesn't understand what I want. If you want to try manage it via ChatGPT — test it and open a PR 🚀
+```sh
+milow run -p "I want to create the AddProductToBasket feature" # This prompt will remain in Milow's context throughout the interaction
+``` 
