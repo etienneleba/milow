@@ -1,7 +1,6 @@
-# Milow: The Test-Driven AI Assistant
+# Milow : The Test-Driven AI Assistant 🚀
 
 <br />
-
 
 Milow is still in beta version, he is waiting for your feedback and contributions. 
 
