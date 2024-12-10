@@ -1,9 +1,7 @@
 # Milow: The Test-Driven AI Assistant
 
 <br />
----
 
-<br />
 
 Milow is still in beta version, he is waiting for your feedback and contributions. 
 
@@ -65,7 +63,11 @@ Create a `docs/milow` folder to store all documentation Milow can use to underst
 
 The more accurately you describe your project, the more efficient Milow will be in generating quality code.
 
+<br />
+
 ---
+
+<br />
 
 ## Usage
 
@@ -85,7 +87,26 @@ milow run -f ./tests/functional/milow.test.ts
 milow run -p "I want to create the AddProductToBasket feature" # This prompt will remain in Milow's context throughout the interaction
 ``` 
 
+<br />
+
+---
+
+<br />
+
 ## Contributing 
+
+[Contributing file](docs/CONTRIBUTING.md)
+
+<br />
+
+---
+
+<br />
+
+## They inspired Milow 
+   
+   - [di-sukharev/AI-TDD](https://github.com/di-sukharev/AI-TDD)
+   - [Bouke Nijhuis | TDD & generative AI - a perfect pairing ?](https://www.youtube.com/watch?v=HpYpctLxfJk)
 
 
 
