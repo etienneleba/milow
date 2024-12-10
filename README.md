@@ -12,14 +12,14 @@ Milow runs on [Bun](https://bun.sh/). Ensure you have the latest version of Bun 
 
 <br />
 
-#### 1. Install Milow globally as a CLI:
+#### 1. Install Milow globally as a CLI :
 
    ```sh
    curl -sSL https://raw.githubusercontent.com/etienneleba/milow/main/install.sh | bash
    ```
 <br />
 
-#### 2. Obtain your API key. Make sure to add payment details to activate the API:
+#### 2. Obtain your API key. Make sure to add payment details to activate the API :
 - [OpenAI](https://platform.openai.com/account/api-keys)
 
 <br />
@@ -43,7 +43,7 @@ This will generate a `milow.config.json` file:
 
 <br />
 
-#### 4. Export the API key:
+#### 4. Export the API key :
 
    ```sh
    export OPENAI_API_KEY=sk-*******
@@ -51,7 +51,7 @@ This will generate a `milow.config.json` file:
 
 <br />
 
-#### 5. Set up Milow's documentation context:
+#### 5. Set up Milow's documentation context :
 
 Create a `docs/milow` folder to store all documentation Milow can use to understand your project. Examples of useful files include:
 - **`business.md`**: Describe the business context of your project.
