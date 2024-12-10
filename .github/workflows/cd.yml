@@ -17,6 +17,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Debug Token
+        run:
+          echo "Token: ${{ secrets.GITHUB_TOKEN }}"
+
       - name: Install Bun
         uses: oven-sh/setup-bun@v2
         with:
