@@ -3,7 +3,7 @@ name: Release Build and Deploy
 on:
   release:
     types:
-      - created
+      - published
 
 jobs:
   build-and-package:
