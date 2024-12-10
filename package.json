@@ -19,7 +19,7 @@
   "scripts": {
     "lint": "bun install --optional --silent && bunx eslint .",
     "dev": "bun run cli.ts",
-    "test": "bun test",
+    "test": "bun install --optional --silent && bun test",
     "build": "bun build ./cli.ts --target=bun --outfile=out/milow.js"
   },
   "devDependencies": {
