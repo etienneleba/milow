@@ -20,15 +20,25 @@ jobs:
         name: Checkout
         uses: actions/checkout@v4
       -
+        name: Install bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      -
         name: Run the tests
         run: bun test functional integration
   lint:
-    name: Docker Lint
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       -
         name: Checkout
         uses: actions/checkout@v4
+      -
+        name: Install bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
       -
         name: Lint project
         run: bun run lint
