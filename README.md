@@ -9,7 +9,7 @@ Milow runs on [Bun](https://bun.sh/), make sure you first install the latest Bun
 1. Install Milow globally as a CLI:
 
    ```sh
-   curl -sSL https://raw.githubusercontent.com/etienneleba/milow/master/install.sh | bash
+   curl -sSL https://raw.githubusercontent.com/etienneleba/milow/main/install.sh | bash
    ```
 
 2. Get your API key from [OpenAI](https://platform.openai.com/account/api-keys). Make sure you add payment details, so API works.
