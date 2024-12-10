@@ -2,6 +2,8 @@
 
 ---
 
+Milow is still in beta version, he is waiting for your feedback and contributions. 
+
 ## Setup
 
 Milow runs on [Bun](https://bun.sh/). Ensure you have the latest version of Bun installed before proceeding.
@@ -14,14 +16,14 @@ Milow runs on [Bun](https://bun.sh/). Ensure you have the latest version of Bun 
 <br />
 
 #### 2. Obtain your API key. Make sure to add payment details to activate the API:
-- [Get your API key from OpenAI](https://platform.openai.com/account/api-keys)
+- [OpenAI](https://platform.openai.com/account/api-keys)
 
 <br />
 
-#### 3. Configure Milow with your API key:
+#### 3. Init Milow :
 
    ```sh
-   milow init
+   milow init # this command creates a milow.config.json file
    ```
 
 This will generate a `milow.config.json` file:
@@ -75,3 +77,8 @@ milow run -f ./tests/functional/milow.test.ts
 ```sh
 milow run -p "I want to create the AddProductToBasket feature" # This prompt will remain in Milow's context throughout the interaction
 ``` 
+
+## Contributing 
+
+
+

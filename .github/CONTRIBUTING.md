@@ -9,7 +9,7 @@ Thank you for considering contributing to the project.
 3. Create a new branch for your changes.
 4. Make your changes and commit them with descriptive commit messages.
 5. Push your changes to your forked repository.
-6. Create a pull request from your branch to the `dev` branch.
+6. Create a pull request from your branch to the `main` branch.
 
 ## Getting started
 
@@ -18,7 +18,6 @@ To get started, follow these steps:
 1. Clone the project repository locally.
 2. Install dependencies with `bun install`.
 3. Run the project with `bun run start -- run`.
-4. See [issues](https://github.com/etienneleba/milow/issues) or [TODO.md](./TODO.md) to help the project.
 
 ## Commit message guidelines
 
