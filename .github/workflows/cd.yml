@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Debug Token
-        run:
+        run: |
           echo "Token: ${{ secrets.GITHUB_TOKEN }}"
 
       - name: Install Bun
