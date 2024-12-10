@@ -1,4 +1,4 @@
-import {intro} from "@clack/prompts";
+import { intro, outro } from "@clack/prompts";
 import { command } from "cleye";
 import { COMMANDS } from "./enums.ts";
 import Milow from "src/domain/api/Milow.ts";
@@ -10,6 +10,8 @@ import GlobFileExplorer from "src/infrastructure/file/GlobFileExplorer.ts";
 import ConsoleUserInteraction from "src/infrastructure/ui/ConsoleUserInteraction.ts";
 import chalk from "chalk";
 import ModelResolver from "src/infrastructure/model/ModelResolver.ts";
+import { outroError, outroSuccess } from "src/infrastructure/utils/prompts.ts";
+import ExitException from "src/domain/exception/ExitException.ts";
 
 export const runCommand = command(
   {
@@ -37,7 +39,13 @@ export const runCommand = command(
       new ConsoleUserInteraction(),
     );
 
-    await milow.fixTests();
+    try {
+      await milow.fixTests();
+    } catch (e: Error) {
+      outroError(e.message);
+    }
+
+    outro(`🤖 : ${chalk.whiteBright("Bye ! Have a good day !")}`);
 
     process.exit(0);
   },

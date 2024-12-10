@@ -23,7 +23,7 @@ const config = ([
             "semi": ["error", "always"],
             "quotes": ["error", "double"],
             "@typescript-eslint/no-unused-vars": ["warn"],
-            "indent": ["error", 2],
+            "indent": ["error", 4],
             "prettier/prettier": "error",
         }
     },

@@ -1,7 +1,7 @@
 import ConfigProvider from "src/infrastructure/config/ConfigProvider.ts";
 import Config from "src/infrastructure/config/Config.ts";
 import FSFileReader from "src/infrastructure/file/FSFileReader.ts";
-import {readFileSync} from "fs";
+import { readFileSync } from "fs";
 
 export default class FileConfigProvider implements ConfigProvider {
   constructor() {}

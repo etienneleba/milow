@@ -3,8 +3,9 @@ import SystemChat from "src/domain/context/SystemChat.ts";
 import FunctionResult from "src/domain/context/FunctionResult.ts";
 import AssistantToolCalls from "src/domain/context/AssistantToolCalls.ts";
 import AssistantChat from "src/domain/context/AssistantChat.ts";
-import { isCancel, log, outro, spinner, text } from "@clack/prompts";
+import {isCancel, log, outro, spinner, text} from "@clack/prompts";
 import chalk from "chalk";
+import ExitException from "src/domain/exception/ExitException.ts";
 
 export default class ConsoleUserInteraction implements UserInteraction {
   private readonly spinner;
@@ -12,6 +13,7 @@ export default class ConsoleUserInteraction implements UserInteraction {
   constructor() {
     this.spinner = spinner();
   }
+
   print(
     conversationItem:
       | AssistantChat
@@ -42,18 +44,15 @@ export default class ConsoleUserInteraction implements UserInteraction {
   }
 
   async ask(question: string): Promise<string> {
-    const textPromise = text({
+    let answer = await text({
       message: `🤖 : ${chalk.whiteBright(question)}`,
     });
 
-    textPromise.then((text) => {
-      if (isCancel(text) || !text) {
-        outro(`🤖 : ${chalk.whiteBright("Bye ! Have a good day !")}`);
-        process.exit();
-      }
-    });
+    if (isCancel(answer) || !answer) {
+      answer = "exit";
+    }
 
-    return textPromise;
+    return Promise.resolve(answer);
   }
 
   startThinking(): void {

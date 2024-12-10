@@ -5,11 +5,8 @@ import ModelProvider from "src/infrastructure/model/ModelProvider.ts";
 export default class ModelResolver {
   private modelProviders: (ModelProvider & Model)[] = [];
 
-  constructor(
-  ) {
-    this.modelProviders = [
-      new OpenAIModel()
-    ]
+  constructor() {
+    this.modelProviders = [new OpenAIModel()];
   }
 
   resolve(modelName: string): Model & ModelProvider {
