@@ -1,12 +1,19 @@
 # Milow: The Test-Driven AI Assistant
 
+<br />
 ---
 
+<br />
+
 Milow is still in beta version, he is waiting for your feedback and contributions. 
+
+<br />
 
 ## Setup
 
 Milow runs on [Bun](https://bun.sh/). Ensure you have the latest version of Bun installed before proceeding.
+
+<br />
 
 #### 1. Install Milow globally as a CLI:
 
