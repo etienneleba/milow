@@ -17,9 +17,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Debug Token
+      - name: Test API Token
         run: |
-          echo "Token: ${{ secrets.GITHUB_TOKEN }}"
+          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+               -H "Accept: application/vnd.github.v3+json" \
+               https://api.github.com/repos/${{ github.repository }}/releases
+      
 
       - name: Install Bun
         uses: oven-sh/setup-bun@v2
