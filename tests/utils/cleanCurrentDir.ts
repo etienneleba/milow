@@ -14,7 +14,7 @@ const getFiles = (globPattern: string): string[] => {
   const glob = new Glob(globPattern);
 
   const files = [];
-  for (const file of glob.scanSync()) {
+  for (const file of glob.scanSync({dot: false})) {
     files.push(file);
   }
 

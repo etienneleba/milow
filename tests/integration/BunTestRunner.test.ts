@@ -3,7 +3,7 @@ import BunTestRunner from "src/infrastructure/test/BunTestRunner.ts";
 import TestResult from "src/domain/test/TestResult.ts";
 
 test("should run a command", async () => {
-  const testRunner = new BunTestRunner("ls");
+  const testRunner = new BunTestRunner("ls", null);
   const testResult = testRunner.run();
   expect(testResult).toBeInstanceOf(TestResult);
 });
