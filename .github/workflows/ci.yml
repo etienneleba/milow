@@ -29,7 +29,7 @@ jobs:
         run: ls -R node_modules
       -
         name: Run the tests
-        run: bun test functional integration
+        run: bun run test functional integration
   lint:
     name: Lint
     runs-on: ubuntu-latest
