@@ -5,7 +5,7 @@ import AssistantToolCalls from "src/domain/context/AssistantToolCalls.ts";
 import UserInteraction from "src/domain/spi/user/UserInteraction.ts";
 
 export default class Context {
-  private readonly MAX_CONVERSATION_SIZE: number = 35;
+  private readonly MAX_CONVERSATION_SIZE: number = 50;
   private _version = 1;
   private _conversations: Array<
     AssistantChat | AssistantToolCalls | FunctionResult | SystemChat
