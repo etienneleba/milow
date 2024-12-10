@@ -1,6 +1,6 @@
-import {intro, outro} from "@clack/prompts";
-import {command} from "cleye";
-import {COMMANDS} from "./enums.ts";
+import { intro, outro } from "@clack/prompts";
+import { command } from "cleye";
+import { COMMANDS } from "./enums.ts";
 import Milow from "src/domain/api/Milow.ts";
 import FSFileManipulator from "src/infrastructure/file/FSFileManipulator.ts";
 import BunTestRunner from "src/infrastructure/test/BunTestRunner.ts";
@@ -9,9 +9,9 @@ import FSFileExplorer from "src/infrastructure/file/FSFileExplorer.ts";
 import ConsoleUserInteraction from "src/infrastructure/ui/ConsoleUserInteraction.ts";
 import chalk from "chalk";
 import ModelResolver from "src/infrastructure/model/ModelResolver.ts";
-import {outroError, outroSuccess} from "src/infrastructure/utils/prompts.ts";
+import { outroError, outroSuccess } from "src/infrastructure/utils/prompts.ts";
 import ExitException from "src/domain/exception/ExitException.ts";
-import {existsSync} from "fs";
+import { existsSync } from "fs";
 import * as process from "node:process";
 
 export const runCommand = command(
@@ -20,20 +20,22 @@ export const runCommand = command(
     flags: {
       testFilePath: {
         type: String,
-        description: 'The path of the test file you want to focus on. This file is added after the test command you specify when running the tests',
-        alias: "f"
+        description:
+          "The path of the test file you want to focus on. This file is added after the test command you specify when running the tests",
+        alias: "f",
       },
       prompt: {
         type: String,
-        description: 'The prompt Milow will be focus on. This prompt will be kept in the context all the time',
-        alias: "p"
-      }
-    }
+        description:
+          "The prompt Milow will be focus on. This prompt will be kept in the context all the time",
+        alias: "p",
+      },
+    },
   },
   async (argv) => {
     intro(`Hey ! I'm Milo${chalk.green("w")}, let me help you ! 🚀`);
 
-    const {testFilePath, prompt} = validateFlags(argv.flags);
+    const { testFilePath, prompt } = validateFlags(argv.flags);
 
     const config = new FileConfigProvider().get();
 
@@ -64,21 +66,23 @@ export const runCommand = command(
   },
 );
 
-const validateFlags = (flags): {testFilePath: string|null, prompt: string|null} => {
-  let { testFilePath, prompt} = flags;
+const validateFlags = (
+  flags,
+): { testFilePath: string | null; prompt: string | null } => {
+  let { testFilePath, prompt } = flags;
 
-  if(testFilePath === undefined) {
+  if (testFilePath === undefined) {
     testFilePath = null;
   }
-  if(testFilePath !== null && testFilePath !== undefined) {
-    if(!existsSync(testFilePath)) {
+  if (testFilePath !== null && testFilePath !== undefined) {
+    if (!existsSync(testFilePath)) {
       outroError("The test file provided does not exist");
-      process.exit(0)
+      process.exit(0);
     }
   }
-  if(prompt === undefined) {
+  if (prompt === undefined) {
     prompt = null;
   }
 
-  return {testFilePath, prompt};
-}
+  return { testFilePath, prompt };
+};

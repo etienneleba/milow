@@ -1,7 +1,7 @@
 import FileExplorer from "src/domain/spi/file/FileExplorer.ts";
 import { Glob } from "bun";
 import File from "src/domain/file/File.ts";
-import {existsSync, readFileSync} from "fs";
+import { existsSync, readFileSync } from "fs";
 
 export default class FSFileExplorer implements FileExplorer {
   constructor(
@@ -38,5 +38,4 @@ export default class FSFileExplorer implements FileExplorer {
 
     return null;
   }
-
 }

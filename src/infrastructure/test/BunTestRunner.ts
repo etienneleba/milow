@@ -5,11 +5,11 @@ import { spawnSync } from "bun";
 export default class BunTestRunner implements TestRunner {
   constructor(
     public readonly testCommand: string,
-    public readonly testFilePath: string|null
-    ) {}
+    public readonly testFilePath: string | null,
+  ) {}
   run(): TestResult {
     let testCommandSplit = this.testCommand.split(" ");
-    if(this.testFilePath !== null) {
+    if (this.testFilePath !== null) {
       testCommandSplit.push(this.testFilePath);
     }
 

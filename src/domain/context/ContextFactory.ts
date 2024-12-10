@@ -5,13 +5,12 @@ import UserInteraction from "src/domain/spi/user/UserInteraction.ts";
 import File from "src/domain/file/File.ts";
 import UserChat from "src/domain/context/UserChat.ts";
 
-
 export class ContextFactory {
   constructor(
     private readonly fileExplorer: FileExplorer,
     private readonly userInteraction: UserInteraction,
   ) {}
-  setup(testFilePath: string|null, prompt: string|null): Context {
+  setup(testFilePath: string | null, prompt: string | null): Context {
     const context = new Context(this.userInteraction);
 
     const fileTree = this.fileExplorer.getViewableFiles();
@@ -22,12 +21,12 @@ export class ContextFactory {
     context.pushInFoundation(new SystemChat(systemMessage));
 
     const testFile = this.getTestFile(testFilePath);
-    if(testFile !== null) {
+    if (testFile !== null) {
       context.pushInFoundation(new UserChat(this.getTestFileMessage(testFile)));
     }
 
-    if(prompt !== null) {
-      context.pushInFoundation(new UserChat(prompt))
+    if (prompt !== null) {
+      context.pushInFoundation(new UserChat(prompt));
     }
 
     return context;
@@ -60,20 +59,19 @@ export class ContextFactory {
       "The test file to focus on : " + testFile.path,
       "```",
       testFile.content,
-      "```"
-    ].join("\n")
+      "```",
+    ].join("\n");
   }
 
-  private getTestFile(testFilePath: string|null): File|null {
-    if(testFilePath === null) {
+  private getTestFile(testFilePath: string | null): File | null {
+    if (testFilePath === null) {
       return null;
     }
     const testFileContent = this.fileExplorer.read(testFilePath);
-    if(testFileContent === null) {
+    if (testFileContent === null) {
       return null;
     }
 
     return new File(testFilePath, testFileContent);
-
   }
 }

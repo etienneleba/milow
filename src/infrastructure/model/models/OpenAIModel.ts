@@ -26,7 +26,7 @@ export default class OpenAIModel implements Model, ModelProvider {
       tools: tools,
       temperature: 0.3,
       top_p: 0.1,
-      tool_choice: "required"
+      tool_choice: "required",
     };
 
     const completion = await this.client.chat.completions.create(params);

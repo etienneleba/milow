@@ -22,7 +22,7 @@ export default class Milow {
     this.model = model;
   }
 
-  async fixTests(testFilePath: string|null, prompt: string|null) {
+  async fixTests(testFilePath: string | null, prompt: string | null) {
     const context = new ContextFactory(
       this.fileExplorer,
       this.userInteraction,
