@@ -3,9 +3,8 @@ import SystemChat from "src/domain/context/SystemChat.ts";
 import FunctionResult from "src/domain/context/FunctionResult.ts";
 import AssistantToolCalls from "src/domain/context/AssistantToolCalls.ts";
 import AssistantChat from "src/domain/context/AssistantChat.ts";
-import { isCancel, log, outro, spinner, text } from "@clack/prompts";
+import { isCancel, log, spinner, text } from "@clack/prompts";
 import chalk from "chalk";
-import ExitException from "src/domain/exception/ExitException.ts";
 
 export default class ConsoleUserInteraction implements UserInteraction {
   private readonly spinner;
