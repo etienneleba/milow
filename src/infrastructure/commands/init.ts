@@ -18,8 +18,8 @@ export const initCommand = command(
         configFilePath,
         JSON.stringify(
           {
-            testCommand: "",
-            model: "",
+            testCommand: "test",
+            model: "gpt-4o",
             viewableFilesPattern: "./{src,tests}/**",
             contextFilesPattern: "./docs/milow/**",
           },

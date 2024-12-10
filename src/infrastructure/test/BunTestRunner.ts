@@ -13,8 +13,6 @@ export default class BunTestRunner implements TestRunner {
       testCommandSplit.push(this.testFilePath);
     }
 
-    console.log(testCommandSplit);
-
     const proc = spawnSync(this.testCommand.split(" "));
 
     return new TestResult(

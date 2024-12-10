@@ -63,6 +63,10 @@ export default class OpenAIModel implements Model, ModelProvider {
     });
   }
 
+  getAPIKeyName(): string {
+    return "OPENAI_API_KEY";
+  }
+
   private translateToOpenAIMessages(
     conversations: Array<
       AssistantChat | AssistantToolCalls | FunctionResult | SystemChat
