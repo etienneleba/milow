@@ -8,17 +8,18 @@ import TestFunction from "src/domain/function/functions/TestFunction.ts";
 import TestRunner from "src/domain/spi/test/TestRunner.ts";
 import AskSupervisorFunction from "src/domain/function/functions/AskSupervisorFunction.ts";
 import UserInteraction from "src/domain/spi/user/UserInteraction.ts";
+import FileExplorer from "src/domain/spi/file/FileExplorer.ts";
 
 export default class FunctionResolver {
   private readonly functions: Array<FunctionCallable>;
   constructor(
-    fileReader: FileReader,
+    fileExplorer: FileExplorer,
     fileManipulator: FileManipulator,
     testRunner: TestRunner,
     userInteraction: UserInteraction,
   ) {
     this.functions = [
-      new ReadFileFunction(fileReader),
+      new ReadFileFunction(fileExplorer),
       new CreateFileFunction(fileManipulator),
       new ReplaceFileFunction(fileManipulator),
       new TestFunction(testRunner),

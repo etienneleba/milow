@@ -5,7 +5,7 @@ import { outroError, outroSuccess } from "src/infrastructure/utils/prompts.ts";
 import FileConfigProvider from "src/infrastructure/config/FileConfigProvider.ts";
 import chalk from "chalk";
 import { ContextFactory } from "src/domain/context/ContextFactory.ts";
-import GlobFileExplorer from "src/infrastructure/file/GlobFileExplorer.ts";
+import FSFileExplorer from "src/infrastructure/file/FSFileExplorer.ts";
 import ModelResolver from "src/infrastructure/model/ModelResolver.ts";
 
 enum OBJECT {
@@ -36,7 +36,7 @@ export const configCommand = command(
       );
     } else if (object === OBJECT.files) {
       const config = new FileConfigProvider().get();
-      const files = new GlobFileExplorer(
+      const files = new FSFileExplorer(
         config.viewableFilesPattern,
         config.contextFilesPattern,
       ).getViewableFiles();

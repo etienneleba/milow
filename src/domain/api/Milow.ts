@@ -14,7 +14,6 @@ import ExitException from "src/domain/exception/ExitException.ts";
 export default class Milow {
   constructor(
     private readonly model: Model,
-    private readonly fileReader: FileReader,
     private readonly fileManipulator: FileManipulator,
     private readonly testRunner: TestRunner,
     private readonly fileExplorer: FileExplorer,
@@ -23,14 +22,14 @@ export default class Milow {
     this.model = model;
   }
 
-  async fixTests() {
+  async fixTests(testFilePath: string|null, prompt: string|null) {
     const context = new ContextFactory(
       this.fileExplorer,
       this.userInteraction,
-    ).setup();
+    ).setup(testFilePath, prompt);
 
     const functionResolver = new FunctionResolver(
-      this.fileReader,
+      this.fileExplorer,
       this.fileManipulator,
       this.testRunner,
       this.userInteraction,

@@ -1,5 +1,5 @@
 import {expect, test} from "bun:test";
-import GlobFileExplorer from "src/infrastructure/file/GlobFileExplorer.ts";
+import FSFileExplorer from "src/infrastructure/file/FSFileExplorer.ts";
 import cleanSandbox from "../utils/cleanCurrentDir.ts";
 import createFile from "../utils/createFile.ts";
 import File from "src/domain/file/File.ts";
@@ -17,9 +17,9 @@ test("should return all the files in a folder", async () => {
   createFile("test3.ts", "test");
 
   // Act
-  const globFileExplorer = new GlobFileExplorer("./**", "./**");
-  const viewableFiles = globFileExplorer.getViewableFiles();
-  const contextFiles = globFileExplorer.getContextFiles();
+  const fsFileExplorer = new FSFileExplorer("./**", "./**");
+  const viewableFiles = fsFileExplorer.getViewableFiles();
+  const contextFiles = fsFileExplorer.getContextFiles();
 
   // Assert
   const viewableFilesResult = [

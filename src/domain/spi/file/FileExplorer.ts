@@ -3,4 +3,6 @@ export default interface FileExplorer {
   getViewableFiles(): string[];
 
   getContextFiles(): File[];
+
+  read(path: string): string | null;
 }

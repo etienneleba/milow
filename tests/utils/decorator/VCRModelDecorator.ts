@@ -5,6 +5,7 @@ import FSFileManipulator from "src/infrastructure/file/FSFileManipulator.ts";
 import FSFileReader from "src/infrastructure/file/FSFileReader.ts";
 import FunctionCall from "src/domain/function/FunctionCall.ts";
 import * as console from "node:console";
+import {readFileSync, writeFileSync} from "fs";
 
 export default class VCRModelDecorator implements Model{
   private responses: [{
@@ -12,16 +13,12 @@ export default class VCRModelDecorator implements Model{
         modelResponse: ModelResponse
     }] = [];
   private _snapshotPath: string = "./tests/functional/snapshots/snapshot.json";
-  private readonly fsFileManipulator: FSFileManipulator;
-  private readonly fsFileReader: FSFileReader;
   private forceReplay: boolean;
 
   constructor(
         private readonly model: Model|null,
 
   ) {
-    this.fsFileManipulator = new FSFileManipulator();
-    this.fsFileReader = new FSFileReader();
     if(model === null) {
       this.forceReplay = true;
     }
@@ -56,8 +53,8 @@ export default class VCRModelDecorator implements Model{
 
   private retrieveResponses(): void {
     try {
-      const snapshotContent = this.fsFileReader.read(this._snapshotPath);
-      this.responses = JSON.parse(snapshotContent);
+      const snapshotContent = readFileSync(this._snapshotPath);
+      this.responses = JSON.parse(snapshotContent.toString());
     } catch (e) {
       this.responses = [];
     }
@@ -67,6 +64,6 @@ export default class VCRModelDecorator implements Model{
 
   private saveResponses() {
     console.log(this.responses);
-    this.fsFileManipulator.replace(this._snapshotPath, JSON.stringify(this.responses,));
+    writeFileSync(this._snapshotPath, JSON.stringify(this.responses,));
   }
 }

@@ -1,9 +1,9 @@
 import FileExplorer from "src/domain/spi/file/FileExplorer.ts";
 import { Glob } from "bun";
 import File from "src/domain/file/File.ts";
-import { readFileSync } from "fs";
+import {existsSync, readFileSync} from "fs";
 
-export default class GlobFileExplorer implements FileExplorer {
+export default class FSFileExplorer implements FileExplorer {
   constructor(
     private viewFilesGlobPattern: string,
     private contextFilesGlobPattern: string,
@@ -30,4 +30,13 @@ export default class GlobFileExplorer implements FileExplorer {
 
     return files;
   }
+
+  read(path: string): string | null {
+    if (existsSync(path)) {
+      return readFileSync(path).toString();
+    }
+
+    return null;
+  }
+
 }

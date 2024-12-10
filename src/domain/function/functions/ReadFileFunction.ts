@@ -1,5 +1,5 @@
 import FunctionCallable from "src/domain/function/functions/FunctionCallable.ts";
-import FileReader from "src/domain/spi/file/FileReader.ts";
+import FileExplorer from "src/domain/spi/file/FileExplorer.ts";
 
 interface Parameters {
   filePath: string;
@@ -7,9 +7,9 @@ interface Parameters {
 export default class ReadFileFunction implements FunctionCallable {
   readonly name = "read_file";
 
-  constructor(private fileReader: FileReader) {}
+  constructor(private fileExplorer: FileExplorer) {}
   async call(parameters: Parameters): Promise<string> {
-    const fileContent = this.fileReader.read(parameters.filePath);
+    const fileContent = this.fileExplorer.read(parameters.filePath);
 
     if (fileContent === null) {
       return parameters.filePath + " does not exist";
