@@ -1,0 +1,40 @@
+name: Release Build and Deploy
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  build-and-package:
+    name: Build and Package Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Dependencies
+        run: bun install --silent
+
+      - name: Build Project
+        run: bun run build
+
+      - name: Package Build into a Zip
+        run: |
+          cd out
+          zip -r ../milow-out.zip .
+          cd ..
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./milow-out.zip
+          asset_name: milow-out.zip
+          asset_content_type: application/zip
