@@ -23,14 +23,14 @@ test("should return all the files in a folder", async () => {
   // Assert
   const viewableFilesResult = [
     "./test.ts",
-    "./test3.ts",
     "./test2.ts",
+    "./test3.ts",
   ];
-  expect(viewableFiles).toEqual(viewableFilesResult);
+  expect(viewableFiles).toContainAllValues(viewableFilesResult);
 
   const contextFileResults = viewableFilesResult.map((path) => new File(path, "test"));
 
-  expect(contextFiles).toEqual(contextFileResults);
+  expect(contextFiles).toContainAllValues(contextFileResults);
 
   await cleanCurrentDir();
   process.chdir("../..");
