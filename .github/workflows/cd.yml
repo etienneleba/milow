@@ -48,3 +48,5 @@ jobs:
           asset_path: ./milow-out.zip
           asset_name: milow-out.zip
           asset_content_type: application/zip
+        env:
+          GITHUB_TOKEN: ${{ github.TOKEN }}
