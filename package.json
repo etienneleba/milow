@@ -1,5 +1,5 @@
 {
-  "version": "0.1.3",
+  "version": "0.1.4",
   "name": "milow",
   "description": "Write a test and let the IA writes the code for you !",
   "bin": {
