@@ -95,8 +95,6 @@ EOF
 chmod +x "$exe" ||
     error 'Failed to set permissions on milow executable'
 
-rm -r "$bin_dir/milow-$target.zip"
-
 tildify() {
     if [[ $1 = $HOME/* ]]; then
         local replacement=\~/
