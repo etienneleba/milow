@@ -138,7 +138,7 @@ export default class OpenAIModel implements Model, ModelProvider {
 
 ```
 
-3. Implement the Call 
+#### 3. Implement the Call 
 
 This function is where everything happens, most of the model providers user the same API interface, so you can use the `GenericTranslator` to help you convert the Milow models to the provider ones. 
 
@@ -190,11 +190,11 @@ export default class OpenAIModel implements Model, ModelProvider {
 
 ```
 
-4. Register the new provider
+#### 4. Register the new provider
 
 Then you just need to add the new provider to the [`ModelResolver`](src/infrastructure/model/ModelResolver.ts), and that's it ! 
 
-5. Share to the community
+#### 5. Share to the community
 
 You can create a pull request to share it with the community ! 🚀
 
