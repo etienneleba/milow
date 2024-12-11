@@ -107,7 +107,7 @@ tildify() {
     fi
 }
 
-success "milow was installed successfully to $Bold_Green$(tildify "$exe")"
+success "Milow was installed successfully to $Bold_Green$(tildify "$exe")"
 
 if command -v milow >/dev/null; then
     # Install completions, but we don't care if it fails
