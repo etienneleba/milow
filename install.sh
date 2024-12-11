@@ -85,9 +85,6 @@ curl --fail --location --progress-bar --output "$exe.zip" "$milow_uri" ||
 unzip -oqd "$bin_dir" "$exe.zip" ||
     error 'Failed to extract milow'
 
-mv "$bin_dir/milow-$target/$exe_name.js" "$exe.js" ||
-    error 'Failed to move extracted milow to destination'
-
 cat <<EOF >"$exe"
 #!/usr/bin/env bash
 set -euo pipefail
