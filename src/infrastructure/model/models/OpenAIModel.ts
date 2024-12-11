@@ -1,12 +1,7 @@
 import Model from "src/domain/spi/model/Model.ts";
 import Context from "src/domain/context/Context.ts";
 import ModelResponse from "src/domain/model/ModelResponse.ts";
-import FunctionCall from "src/domain/function/FunctionCall.ts";
 import OpenAI, { OpenAI } from "openai";
-import AssistantChat from "src/domain/context/AssistantChat.ts";
-import AssistantToolCalls from "src/domain/context/AssistantToolCalls.ts";
-import FunctionResult from "src/domain/context/FunctionResult.ts";
-import SystemChat from "src/domain/context/SystemChat.ts";
 import ModelProvider from "src/infrastructure/model/ModelProvider.ts";
 import GenericTranslator from "src/infrastructure/model/GenericTranslator.ts";
 
@@ -34,7 +29,6 @@ export default class OpenAIModel implements Model, ModelProvider {
       tools: tools,
       temperature: 0.3,
       top_p: 0.1,
-      tool_choice: "required",
     };
 
     const completion = await this.client.chat.completions.create(params);

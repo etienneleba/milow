@@ -47,7 +47,7 @@ export class ContextFactory {
       "- Adhere strictly to Test-Driven Development (TDD) practices, write the minimum of code to pass the test, ensure that all code written is robust, efficient, passes the tests and is production ready.",
       "- Use the examples to understand the coding style of the team and the context of the project",
       "- You're done when the tests are green.",
-      "- Ask the supervisor what to do when you are done",
+      "- Ask the supervisor what to do next when you are done",
       "---",
       "## Project :",
       ...contextFiles.map((file) => [file.content]),
