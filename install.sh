@@ -85,8 +85,8 @@ curl --fail --location --progress-bar --output "$exe.zip" "$milow_uri" ||
 unzip -oqd "$bin_dir" "$exe.zip" ||
     error 'Failed to extract milow'
 
-#mv "$bin_dir/$exe_name.js" "$exe.js" ||
-#    error 'Failed to move extracted milow to destination'
+mv "$bin_dir/milow-$target/$exe_name.js" "$exe.js" ||
+    error 'Failed to move extracted milow to destination'
 
 cat <<EOF >"$exe"
 #!/usr/bin/env bash
@@ -98,7 +98,7 @@ EOF
 chmod +x "$exe" ||
     error 'Failed to set permissions on milow executable'
 
-#rm -r "$bin_dir/milow-$target" "$exe.zip"
+rm -r "$bin_dir/milow-$target" "$exe.zip"
 
 tildify() {
     if [[ $1 = $HOME/* ]]; then
