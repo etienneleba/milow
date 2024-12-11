@@ -1,0 +1,6 @@
+{
+  "testCommand": "bun run test functional integration",
+  "model": "gpt-4o",
+  "viewableFilesPattern": "./{src,tests}/**",
+  "contextFilesPattern": "./docs/milow/**"
+}

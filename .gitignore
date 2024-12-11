@@ -172,5 +172,3 @@ dist
 
 tests/sandbox/**
 !tests/sandbox/.gitignore
-
-milow.config.json
