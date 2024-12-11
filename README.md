@@ -2,6 +2,8 @@
 
 Milow is still in beta version, he is waiting for your feedback and contributions.
 
+![](docs/milow-2024-12-11_13.02.09.gif)
+
 ## Setup
 
 Milow runs on [Bun](https://bun.sh/). Ensure you have the latest version of Bun installed before proceeding.
