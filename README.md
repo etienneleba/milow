@@ -73,7 +73,7 @@ milow run -p "I want to create the AddProductToBasket feature" # This prompt wil
 
 ## Contributing
 
-The guideline to contribute : [Contributing guidelines](docs/CONTRIBUTING.md)
+The guidelines to contribute : [Contributing guidelines](docs/CONTRIBUTING.md)
 
 ### Features
 
