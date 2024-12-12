@@ -3,6 +3,7 @@ import SystemChat from "src/domain/context/SystemChat.ts";
 import AssistantChat from "src/domain/context/AssistantChat.ts";
 import AssistantToolCalls from "src/domain/context/AssistantToolCalls.ts";
 import UserInteraction from "src/domain/spi/user/UserInteraction.ts";
+import FunctionCall from "src/domain/function/FunctionCall.ts";
 
 export default class Context {
   private readonly MAX_CONVERSATION_SIZE: number = 30;
@@ -14,7 +15,8 @@ export default class Context {
     AssistantChat | AssistantToolCalls | FunctionResult | SystemChat
   > = [];
 
-  constructor(private readonly userInteraction: UserInteraction) {}
+  constructor(private readonly userInteraction: UserInteraction) {
+  }
 
   push(
     conversationItem:
@@ -23,6 +25,9 @@ export default class Context {
       | FunctionResult
       | SystemChat,
   ): Context {
+
+    this.removeOutdatedTestCalls(conversationItem);
+
     this.pruneConversation();
     this._conversations.push(conversationItem);
     this._version++;
@@ -36,8 +41,7 @@ export default class Context {
     conversationItem:
       | AssistantChat
       | AssistantToolCalls
-      | FunctionResult
-      | SystemChat,
+      | FunctionResult | SystemChat,
   ): Context {
     this._foundation.push(conversationItem);
 
@@ -65,12 +69,12 @@ export default class Context {
       this.checkForRelatedConversationItems(removedConversationItem);
     }
   }
+
   private checkForRelatedConversationItems(
     conversationItem:
       | AssistantChat
       | AssistantToolCalls
-      | FunctionResult
-      | SystemChat,
+      | FunctionResult | SystemChat,
   ): void {
     if (conversationItem instanceof AssistantToolCalls) {
       for (const functionCall of conversationItem.functionCalls) {
@@ -86,6 +90,27 @@ export default class Context {
           }
         }
       }
+    }
+  }
+
+  private removeOutdatedTestCalls(conversationItem:
+                                    | AssistantChat
+                                    | AssistantToolCalls
+                                    | FunctionResult
+                                    | SystemChat): void {
+    if (conversationItem instanceof AssistantToolCalls && conversationItem.functionCalls.some(call => call.name === 'test')) {
+      this._conversations = this._conversations.filter(item => {
+        if (item instanceof AssistantToolCalls) {
+          return !item.functionCalls.some(call => call.name === 'test');
+        }
+        if (item instanceof FunctionResult) {
+          return !this._conversations.some(conversation =>
+            conversation instanceof AssistantToolCalls &&
+            conversation.functionCalls.some(call => call.id === item.tool_call_id && call.name === 'test')
+          );
+        }
+        return true;
+      });
     }
   }
 }

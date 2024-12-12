@@ -4,10 +4,9 @@ import AssistantToolCalls from "src/domain/context/AssistantToolCalls.ts";
 import FunctionResult from "src/domain/context/FunctionResult.ts";
 import SystemChat from "src/domain/context/SystemChat.ts";
 
-export default class UserInteractionTestDecorator implements UserInteraction {
+export default class UserInteractionMock implements UserInteraction {
 
   constructor(
-        private readonly userInteraction: UserInteraction
   ) {
   }
 

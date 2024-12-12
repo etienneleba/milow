@@ -1,5 +1,5 @@
 {
-  "testCommand": "bun run test functional integration",
+  "testCommand": "bun run test functional integration unit",
   "model": "gpt-4o",
   "viewableFilesPattern": "./{src,tests}/**",
   "contextFilesPattern": "./docs/milow/**"

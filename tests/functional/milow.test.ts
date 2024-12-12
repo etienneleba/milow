@@ -8,7 +8,7 @@ import ConsoleUserInteraction from "src/infrastructure/ui/ConsoleUserInteraction
 import copyDirectory from "../utils/copyDirectory.ts";
 import cleanCurrentDir from "../utils/cleanCurrentDir.ts";
 import VCRModelDecorator from "../utils/decorator/VCRModelDecorator.ts";
-import UserInteractionTestDecorator from "../utils/decorator/UserInteractionTestDecorator.ts";
+import UserInteractionMock from "../utils/decorator/UserInteractionMock.ts";
 import {readFileSync, } from "fs";
 
 test("should fix the test and create the generatePrimeNumbers function", async () => {
@@ -29,7 +29,7 @@ test("should fix the test and create the generatePrimeNumbers function", async (
     new FSFileManipulator(),
     new BunTestRunner("bun run test"),
     new FSFileExplorer("./{src,tests}/**", "./docs/**"),
-    new UserInteractionTestDecorator(new ConsoleUserInteraction())
+    new UserInteractionMock(new ConsoleUserInteraction())
   );
   await milow.fixTests(null);
 

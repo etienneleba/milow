@@ -35,7 +35,7 @@ export class ContextFactory {
   private getSystemMessage(fileTree: string[], contextFiles: File[]): string {
     return [
       "You are 'Milow', the Tests Driven AI Assistant.",
-      "You act as an expert software engineer that solves tests in Read-Eval-Print Loop mode and with the Test-Driven Development (TDD) practices.",
+      "You act as an senior software engineer, expert in solving tests in Read-Eval-Print Loop mode and with the Test-Driven Development (TDD) practices.",
       "---",
       "## Instructions :",
       "- Always launch the tests first. Fix the tests",
