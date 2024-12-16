@@ -6,8 +6,6 @@ import FunctionCall from "../../../src/domain/function/FunctionCall";
 import FunctionResult from "../../../src/domain/context/FunctionResult";
 import AssistantChat from "../../../src/domain/context/AssistantChat";
 import * as process from "node:process";
-import SystemChat from "src/domain/context/SystemChat.ts";
-import UserInteraction from "src/domain/spi/user/UserInteraction.ts";
 import UserInteractionMock from "../../utils/decorator/UserInteractionMock.ts";
 
 
