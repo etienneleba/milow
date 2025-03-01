@@ -24,7 +24,15 @@ export default class TestFunction implements FunctionCallable {
     return {
       name: "test",
       description: "Run the test of the project. Return the test result",
-      parameters: {},
+      parameters: {
+        type: "object",
+        properties: {
+          filter: {
+            type: "string",
+            description: "The path of the test file",
+          },
+        }
+      },
     };
   }
 }

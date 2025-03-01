@@ -29,9 +29,20 @@ export default class OpenAIModel implements Model, ModelProvider {
       tools: tools,
       temperature: 0.3,
       top_p: 0.1,
+      //tool_choice: "required"
     };
 
+    
+
     const completion = await this.client.chat.completions.create(params);
+
+    console.log(completion);
+
+    if(completion.error ==! undefined) {
+      console.log(completion.error.message);
+    }
+
+
 
     const message = completion.choices[0].message;
 
@@ -46,7 +57,7 @@ export default class OpenAIModel implements Model, ModelProvider {
   }
 
   getModelNames(): string[] {
-    return ["o3-mini", "o1", "o1-mini", "gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-4"];
+    return ["openai/gpt-4o", "openai/gpt-4.5-preview", "anthropic/claude-3.5-sonnet", "anthropic/claude-3.7-sonnet"];
   }
 
   set modelName(value: string) {
@@ -56,10 +67,11 @@ export default class OpenAIModel implements Model, ModelProvider {
   set apiKey(value: string) {
     this.client = new OpenAI({
       apiKey: value,
+      baseURL: "https://openrouter.ai/api/v1"
     });
   }
 
   getAPIKeyName(): string {
-    return "OPENAI_API_KEY";
+    return "OPEN_ROUTER_API_KEY";
   }
 }

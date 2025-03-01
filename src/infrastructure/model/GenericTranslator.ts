@@ -74,7 +74,7 @@ export default class GenericTranslator {
         new FunctionCall(
           toolCall.id,
           toolCall.function.name,
-          JSON.parse(toolCall.function.arguments),
+          toolCall.function.arguments === "" ? {} : JSON.parse(toolCall.function.arguments),
         ),
       );
     }

@@ -57,6 +57,7 @@ export const runCommand = command(
     try {
       await milow.fixTests(testFilePath, prompt);
     } catch (e: Error) {
+      console.log(e);
       outroError(e.message);
     }
 

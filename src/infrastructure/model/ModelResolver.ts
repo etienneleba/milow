@@ -1,7 +1,8 @@
 import Model from "src/domain/spi/model/Model.ts";
 import OpenAIModel from "src/infrastructure/model/models/OpenAIModel.ts";
+import DeepSeekModel from "src/infrastructure/model/models/DeepSeekModel.ts";
+import OpenRouterModel from "src/infrastructure/model/models/OpenRouterModel.ts";
 import ModelProvider from "src/infrastructure/model/ModelProvider.ts";
-import MistralModel from "src/infrastructure/model/models/MistralModel.ts";
 
 export default class ModelResolver {
   private modelProviders: (ModelProvider & Model)[] = [];
@@ -9,7 +10,8 @@ export default class ModelResolver {
   constructor() {
     this.modelProviders = [
       new OpenAIModel(),
-      new MistralModel()
+      new DeepSeekModel(),
+      new OpenRouterModel(),
     ];
   }
 
